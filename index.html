@@ -126,7 +126,7 @@
         <img src="school logo.jpeg" alt="MBK logo large" class="logo-hero">
       </div>
       <div class="hero-brand hidden" id="home-teacher-classes" style="gap:10px; padding-top: 10px;">
-       
+        <h2 class="muted">Classes</h2>
         <div id="home-class-list" class="class-list" style="margin-top:20px; width:100%; max-width:900px;"></div>
       </div>
     </div>
@@ -311,6 +311,10 @@
 
     <!-- ANNOUNCEMENTS -->
     <div id="announcements" class="view hidden">
+      <div class="nav" style="margin:0 0 10px;">
+        <button class="secondary" id="ann-back-btn" style="display:none;">← Back</button>
+        <h3 style="flex:1;">Announcements</h3>
+      </div>
       <div class="grid" style="grid-template-columns:1fr 1fr;gap:16px;">
         <div class="section">
           <h4>Post Announcement</h4>
@@ -404,6 +408,11 @@ const saveAdmin = creds => { admin = {...admin, ...creds}; localStorage.setItem(
 const store = { read:k=>JSON.parse(localStorage.getItem(k)||'[]'), write:(k,v)=>localStorage.setItem(k,JSON.stringify(v)) };
 const toBase64 = file => new Promise(res=>{const r=new FileReader();r.onload=()=>res(r.result);r.readAsDataURL(file);});
 const today = ()=> new Date().toISOString().slice(0,10);
+const matchClass = (sCls, tCls) => {
+  const s = (sCls || '').toLowerCase().trim();
+  const t = (tCls || '').toLowerCase().trim();
+  return s === t || s.startsWith(t + ' ');
+};
 
 // state
 let students = store.read(key.students);
@@ -507,6 +516,7 @@ const updateNavForRole=()=>{
   if(settingsBtn) settingsBtn.style.display = isTeacher ? 'none' : 'inline-flex';
   if($('#nav-subtitle')) $('#nav-subtitle').textContent = isTeacher ? 'Teacher Workspace' : 'Admin Workspace';
   if($('#att-back-btn')) $('#att-back-btn').style.display = isTeacher ? 'inline-flex' : 'none';
+  if($('#ann-back-btn')) $('#ann-back-btn').style.display = isTeacher ? 'inline-flex' : 'none';
   if(isTeacher){
     $('#home-admin-brand')?.classList.add('hidden');
     $('#home-teacher-classes')?.classList.remove('hidden');
@@ -603,8 +613,8 @@ const renderAttendance=()=>{
     const classFilter = $('#att-class-filter')?.value || '';
     allowedStudents = students.filter(s=>{
       if(!allowedClasses.length) return false;
-      const inAssigned = allowedClasses.some(c=> (s.className||'').toLowerCase() === c.toLowerCase());
-      const matchesFilter = !classFilter || (s.className||'').toLowerCase() === classFilter.toLowerCase();
+      const inAssigned = allowedClasses.some(c => matchClass(s.className, c));
+      const matchesFilter = !classFilter || matchClass(s.className, classFilter);
       return inAssigned && matchesFilter;
     });
     const summary = $('#teacher-assign-summary');
@@ -725,7 +735,7 @@ const updateTeacherClassFilter=()=>{
   if(summary) summary.style.display='block';
   if(homeList){
     const counts = classes.map(c=>{
-      const cnt = students.filter(s=>(s.className||'').toLowerCase() === c.toLowerCase()).length;
+      const cnt = students.filter(s => matchClass(s.className, c)).length;
       return {c, cnt};
     });
     homeList.innerHTML = counts.length ? counts.map(({c,cnt})=>`
@@ -926,6 +936,7 @@ $('#teacher-import-btn')?.addEventListener('click',()=>{
 // attendance saving
 $('#att-date').onchange=renderAttendance;
 $('#att-back-btn').onclick=()=>showView('nav-home');
+$('#ann-back-btn').onclick=()=>showView('nav-home');
 $('#save-attendance').onclick=()=>{
   const date=$('#att-date').value||today();
   const records=[...document.querySelectorAll('#attendance-list input[type=checkbox]')].map(cb=>({id:cb.dataset.id,status:cb.checked?'Present':'Absent'}));
