@@ -1,0 +1,940 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MBK International School - Management Suite</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#f4f7fc;--panel:#ffffff;--card:#e9f0fb;--accent:#1b78f2;--accent2:#2f9e44;
+      --text:#162038;--muted:#67738a;--border:#d6e0f2;--danger:#e63946;--shadow:0 18px 40px rgba(0,0,0,.08);
+      --radius:16px;font-family:"Poppins",system-ui,-apple-system,sans-serif;
+    }
+    *{box-sizing:border-box;}
+    body{margin:0;background:radial-gradient(circle at 18% 18%,#fff5e6 0,#f7efe1 25%,#f2ebdf 55%,#efe7db 100%);color:var(--text);}
+    main{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:28px;}
+    .panel{width:100%;max-width:1280px;background:var(--panel);padding:30px;border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border);}
+    h1,h2,h3,h4{margin:0;}
+    .hidden{display:none;}
+    button{cursor:pointer;border:none;border-radius:12px;padding:10px 14px;font-weight:600;transition:.15s;background:var(--accent);color:#3c2100;}
+    button.secondary{background:var(--card);color:var(--text);border:1px solid var(--border);}
+    button.danger{background:var(--danger);color:#fff;}
+    input,select,textarea{width:100%;padding:10px;border-radius:12px;border:1px solid var(--border);background:#fff;color:var(--text);font-family:inherit;}
+    label{display:block;font-size:.9rem;margin:8px 0 4px;color:var(--muted);}
+    .grid{display:grid;gap:16px;}
+    .cards{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+    .nav{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:18px;}
+    .nav button{padding:10px 12px;}
+    .pill{border:1px solid var(--border);background:var(--card);padding:10px 14px;border-radius:999px;}
+    .logo{display:flex;align-items:center;gap:10px;}
+    .logo-mark{width:42px;height:42px;border-radius:12px;object-fit:cover;box-shadow:0 10px 20px rgba(27,120,242,.25);}
+    .hero{display:grid;grid-template-columns:1.2fr 1fr;gap:24px;align-items:center;}
+    .list-item{background:var(--card);padding:10px 12px;border-radius:12px;display:flex;gap:10px;align-items:center;cursor:pointer;border:1px solid var(--border);}
+    .list-item:hover{border-color:var(--accent);}
+    .avatar{width:48px;height:48px;border-radius:12px;object-fit:cover;background:#f2eadf;}
+    .profile{display:grid;gap:18px;grid-template-columns:180px 1fr;align-items:start;}
+    .badge{display:inline-block;padding:4px 10px;border-radius:999px;background:#dfeeff;color:#0b57c2;font-weight:600;font-size:.85rem;}
+    .muted{color:var(--muted);}
+    .class-grid{display:grid;grid-template-columns:repeat(4,minmax(60px,1fr));gap:6px;font-size:.9rem;}
+    .hero-brand{display:grid;justify-items:center;gap:14px;padding:40px 0;}
+    .hero-brand h1{font-size:32px;}
+    .logo-hero{width:220px;height:220px;object-fit:cover;border-radius:24px;box-shadow:var(--shadow);}
+    .class-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;}
+    .class-card{padding:14px;border-radius:12px;border:1px solid var(--border);background:var(--panel);box-shadow:var(--shadow);cursor:pointer;}
+    .class-card:hover{border-color:var(--accent);}
+    .big-class-btn{padding:16px 30px;font-size:20px;font-weight:700;border-radius:14px;box-shadow:var(--shadow);background:var(--accent);color:#fff;border:none;cursor:pointer;}
+    table{width:100%;border-collapse:collapse;font-size:.94rem;}
+    th,td{padding:10px;border-bottom:1px solid var(--border);text-align:left;}
+    .section{background:var(--card);padding:14px;border-radius:var(--radius);border:1px solid var(--border);}
+    @media(max-width:960px){.hero{grid-template-columns:1fr;} .profile{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+<main>
+  <!-- LOGIN -->
+  <section id="login-view" class="panel">
+    <div class="hero">
+      <div>
+        <div class="logo">
+          <img src="school logo.jpeg" alt="MBK logo" class="logo-mark">
+          <div>
+            <h1>MBK International School</h1>
+            <p class="muted">Unified School Management Suite</p>
+          </div>
+        </div>
+        <ul class="muted" style="margin:16px 0 0;line-height:1.6;">
+          <li>Secure admin login</li>
+          <li>Teacher sign-in for attendance only</li>
+          <li>Student & teacher profiles with photos</li>
+          <li>Classes, fees, announcements</li>
+        </ul>
+      </div>
+      <div class="section" style="box-shadow:var(--shadow);">
+        <h3 style="margin-bottom:6px;">Sign In</h3>
+        <p class="muted" style="margin-top:0;">Choose role, then enter credentials.</p>
+        <form id="login-form" class="grid" style="max-width:380px;margin-top:12px;">
+          <div style="display:flex;gap:10px;">
+            <label style="flex:1;display:flex;align-items:center;gap:8px;">
+              <input type="radio" name="role" value="admin" checked style="width:16px;height:16px;"> Admin
+            </label>
+            <label style="flex:1;display:flex;align-items:center;gap:8px;">
+              <input type="radio" name="role" value="teacher" style="width:16px;height:16px;"> Teacher
+            </label>
+          </div>
+          <div>
+            <label>Username</label>
+            <input name="user" autocomplete="username" required placeholder="Enter username">
+          </div>
+          <div>
+            <label>Password</label>
+            <input name="pass" type="password" autocomplete="current-password" required placeholder="Enter password">
+          </div>
+          <button type="submit">Enter</button>
+          <p id="login-error" style="color:var(--danger);display:none;">Invalid credentials</p>
+          <p class="muted" style="margin:4px 0 0;font-size:.9rem;">Admins access everything. Teachers can record attendance only.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- APP -->
+  <section id="app-view" class="panel hidden">
+    <div class="nav" id="top-nav">
+        <div class="logo" style="flex:1;">
+          <img src="school logo.jpeg" alt="MBK logo" class="logo-mark">
+        <div>
+          <div style="font-weight:700;">MBK International School</div>
+          <div class="muted" id="nav-subtitle" style="font-size:.9rem;">Admin Workspace</div>
+        </div>
+      </div>
+      <button data-target="dashboard">Dashboard</button>
+      <button data-target="students">Students</button>
+      <button data-target="teachers">Teachers</button>
+      <button data-target="classes" id="classes-nav-btn">Classes</button>
+      <button data-target="announcements">Announcements</button>
+      <button class="secondary" id="settings-btn" data-target="admin-settings" style="display:none;">Settings</button>
+      <button class="secondary" id="logout">Logout</button>
+    </div>
+
+    <!-- NAV HOME -->
+    <div id="nav-home" class="view">
+      <div class="hero-brand" id="home-admin-brand">
+        <h1>MBK International School</h1>
+        <img src="school logo.jpeg" alt="MBK logo large" class="logo-hero">
+      </div>
+      <div class="hero-brand hidden" id="home-teacher-classes" style="gap:10px; padding-top: 10px;">
+       
+        <div id="home-class-list" class="class-list" style="margin-top:20px; width:100%; max-width:900px;"></div>
+      </div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div id="dashboard" class="view">
+      <div id="dashboard-cards" class="hidden">
+        <div class="grid cards" style="margin-bottom:16px;">
+          <div class="section">
+            <div class="badge">Students</div>
+            <h2 id="total-students">0</h2>
+            <p class="muted">Active enrolment</p>
+          </div>
+          <div class="section">
+            <div class="badge" style="background:#e7f7ed;color:#1d7a3a;">Teachers</div>
+            <h2 id="total-teachers">0</h2>
+            <p class="muted">Faculty on record</p>
+          </div>
+          <div class="section">
+            <div class="badge" style="background:#e8e9ff;color:#3d44d9;">Classes</div>
+            <h2 id="total-classes">0</h2>
+            <p class="muted">Homerooms & streams</p>
+          </div>
+          <div class="section">
+            <div class="badge" style="background:#ffe7e7;color:#b1252a;">Fees</div>
+            <h2 id="fees-due">0 pending</h2>
+            <p class="muted">Students with outstanding fees</p>
+          </div>
+        </div>
+        <div class="grid" style="grid-template-columns:2fr 1.1fr;gap:16px;">
+          <div class="section">
+            <h4>Recent Announcements</h4>
+            <div id="announce-preview" class="grid" style="gap:10px;margin-top:8px;"></div>
+          </div>
+          <div class="section">
+            <h4>Today’s Attendance</h4>
+            <p class="muted" id="att-status">No attendance recorded today.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STUDENTS -->
+    <div id="students" class="view hidden">
+      <div class="nav" style="margin:0 0 10px;">
+        <h3 style="flex:1;">Students</h3>
+        <input id="student-search" placeholder="Search by name or ID" style="max-width:260px;">
+      </div>
+      <div class="grid" style="grid-template-columns:1.1fr 1fr;gap:18px;">
+        <div class="section" style="overflow:auto;">
+          <table class="table">
+            <thead>
+              <tr><th>Name</th><th>ID</th><th>Class</th><th>Fee</th></tr>
+            </thead>
+            <tbody id="student-tbody"></tbody>
+          </table>
+        </div>
+        <div class="grid" style="gap:12px;">
+          <form id="student-form" class="grid section" style="gap:10px;">
+            <h4>Add / Edit Student</h4>
+            <input type="hidden" name="editId">
+            <label>Name</label><input name="name" required>
+            <label>Student ID</label><input name="id" required>
+            <label>Age</label><input name="age" type="number" min="3" required>
+            <label>Class</label><input name="className" required placeholder="e.g., Grade 6 East">
+            <label>Guardian</label><input name="guardian" required>
+            <label>Phone</label><input name="phone" required>
+            <label>Email</label><input name="email" type="email" required>
+            <label>Address</label><textarea name="address" rows="2" required></textarea>
+            <label>Fee Status</label>
+            <select name="feeStatus">
+              <option value="Paid">Paid</option>
+              <option value="Partial">Partial</option>
+              <option value="Pending" selected>Pending</option>
+            </select>
+            <label>Photo</label><input name="photo" type="file" accept="image/*">
+            <button type="submit">Save Student</button>
+            <button type="button" class="secondary" id="student-reset">Reset Form</button>
+          </form>
+          <div class="section">
+            <h4>Import Students (CSV)</h4>
+            <p class="muted" style="font-size:.9rem;">Columns: name,id,age,className,guardian,phone,email,address,feeStatus</p>
+            <input type="file" id="student-import-file" accept=".csv,text/csv">
+            <textarea id="student-import-text" rows="4" placeholder="Paste CSV rows here"></textarea>
+            <button id="student-import-btn">Import</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TEACHERS -->
+    <div id="teachers" class="view hidden">
+      <div class="nav" style="margin:0 0 10px;">
+        <h3 style="flex:1;">Teachers</h3>
+        <input id="teacher-search" placeholder="Search by name or ID" style="max-width:260px;">
+        <button class="secondary" id="teacher-new">Add Teacher</button>
+      </div>
+      <div class="grid" style="grid-template-columns:1.1fr 1fr;gap:18px;">
+        <div class="section" style="overflow:auto;">
+          <table class="table">
+            <thead>
+              <tr><th>Name</th><th>ID</th><th>Subject</th><th>Classes</th></tr>
+            </thead>
+            <tbody id="teacher-tbody"></tbody>
+          </table>
+        </div>
+        <div class="grid" style="gap:12px;">
+          <form id="teacher-form" class="grid section" style="gap:10px;">
+            <h4>Add / Edit Teacher</h4>
+            <input type="hidden" name="editId">
+            <label>Name</label><input name="name" required>
+            <label>Teacher ID</label><input name="id" required>
+            <label>Subject</label><input name="subject" required>
+            <label>Classes (Grades they teach)</label>
+            <div class="class-grid">
+              <label><input type="checkbox" name="classes" value="Grade 1"> G1</label>
+              <label><input type="checkbox" name="classes" value="Grade 2"> G2</label>
+              <label><input type="checkbox" name="classes" value="Grade 3"> G3</label>
+              <label><input type="checkbox" name="classes" value="Grade 4"> G4</label>
+              <label><input type="checkbox" name="classes" value="Grade 5"> G5</label>
+              <label><input type="checkbox" name="classes" value="Grade 6"> G6</label>
+              <label><input type="checkbox" name="classes" value="Grade 7"> G7</label>
+              <label><input type="checkbox" name="classes" value="Grade 8"> G8</label>
+              <label><input type="checkbox" name="classes" value="Grade 9"> G9</label>
+              <label><input type="checkbox" name="classes" value="Grade 10"> G10</label>
+              <label><input type="checkbox" name="classes" value="Grade 11"> G11</label>
+              <label><input type="checkbox" name="classes" value="Grade 12"> G12</label>
+            </div>
+            <label>Login Username</label><input name="loginUser" required placeholder="e.g., motieno">
+            <label>Login Password</label><input name="loginPassword" type="password" required>
+            <label>Phone</label><input name="phone" required>
+            <label>Email</label><input name="email" type="email" required>
+            <label>Address</label><textarea name="address" rows="2" required></textarea>
+            <label>Photo</label><input name="photo" type="file" accept="image/*">
+            <button type="submit">Save Teacher</button>
+            <button type="button" class="secondary" id="teacher-reset">Reset Form</button>
+          </form>
+          <div class="section">
+            <h4>Import Teachers (CSV)</h4>
+            <p class="muted" style="font-size:.9rem;">Columns: name,id,subject,classes(loginUser|loginPassword|phone|email|address)</p>
+            <input type="file" id="teacher-import-file" accept=".csv,text/csv">
+            <textarea id="teacher-import-text" rows="4" placeholder="name,id,subject,classes,loginUser,loginPassword,phone,email,address"></textarea>
+            <button id="teacher-import-btn">Import</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CLASSES -->
+    <div id="classes" class="view hidden">
+      <div class="grid" style="grid-template-columns:1fr 1fr;gap:16px;">
+        <div class="section">
+          <h4>Create Class</h4>
+          <form id="class-form" class="grid" style="gap:10px;">
+            <label>Class Name</label><input name="name" required placeholder="Grade 7 North">
+            <label>Room</label><input name="room" placeholder="Block B - 3">
+            <label>Class Teacher</label><input name="teacher" placeholder="Mr. Otieno">
+            <button type="submit">Save Class</button>
+          </form>
+        </div>
+        <div class="section">
+          <h4>All Classes</h4>
+          <div id="class-list" class="grid" style="gap:8px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ATTENDANCE -->
+    <div id="attendance" class="view hidden">
+      <div class="nav" style="margin:0 0 10px;">
+        <button class="secondary" id="att-back-btn">← Back</button>
+        <h3 style="flex:1;">Attendance</h3>
+        <select id="att-class-filter" style="max-width:220px;display:none;"></select>
+        <input type="date" id="att-date" style="max-width:180px;">
+      </div>
+      <div class="section">
+        <div id="teacher-assign-summary" class="muted" style="margin-bottom:10px;display:none;"></div>
+        <div class="grid" id="attendance-list" style="gap:10px;"></div>
+        <button id="save-attendance" style="margin-top:12px;">Save Attendance</button>
+      </div>
+    </div>
+
+    <!-- ANNOUNCEMENTS -->
+    <div id="announcements" class="view hidden">
+      <div class="grid" style="grid-template-columns:1fr 1fr;gap:16px;">
+        <div class="section">
+          <h4>Post Announcement</h4>
+          <form id="announce-form" class="grid" style="gap:10px;">
+            <input type="hidden" name="editIdx">
+            <label>Title</label><input name="title" required>
+            <label>Message</label><textarea name="body" rows="3" required></textarea>
+            <button type="submit">Publish</button>
+          </form>
+        </div>
+        <div class="section">
+          <h4>Board</h4>
+          <div id="announce-list" class="grid" style="gap:10px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADMIN SETTINGS -->
+    <div id="admin-settings" class="view hidden">
+      <div class="section" style="max-width:520px;">
+        <h3>Settings</h3>
+        <div style="display:flex;align-items:center;gap:12px;margin:8px 0 12px;">
+          <img id="admin-photo-preview" src="" alt="Admin" style="width:64px;height:64px;border-radius:16px;object-fit:cover;background:#e5e7eb;border:1px solid var(--border);">
+          <div>
+            <div class="muted" id="admin-photo-label">Admin Profile</div>
+            <input type="file" id="admin-photo" accept="image/*">
+          </div>
+        </div>
+        <form id="admin-form" class="grid" style="gap:10px;margin-top:8px;">
+          <label>Username</label><input name="user" required>
+          <label>New Password</label><input name="pass" type="password" required>
+          <button type="submit">Update Admin Login</button>
+          <p class="muted" style="margin:0;">Takes effect immediately and persists in this browser.</p>
+        </form>
+        <button class="secondary" id="admin-logout" style="margin-top:12px;">Log out</button>
+      </div>
+    </div>
+
+    <!-- PROFILE -->
+    <div id="profile" class="view hidden">
+      <button class="secondary" id="back-btn">← Back</button>
+      <div class="profile section">
+        <img id="profile-photo" class="avatar" style="width:160px;height:160px;border-radius:22px;object-fit:cover;">
+        <div>
+          <h2 id="profile-name"></h2>
+          <p class="badge" id="profile-role"></p>
+          <div id="profile-details" style="margin-top:12px;line-height:1.5;"></div>
+          <div style="margin-top:12px;display:flex;gap:10px;">
+            <button id="profile-edit">Edit</button>
+            <button class="danger" id="profile-delete">Delete</button>
+          </div>
+          <div id="profile-edit-panel" class="section hidden" style="margin-top:12px;">
+            <h4>Edit Teacher</h4>
+            <form id="profile-edit-form" class="grid" style="gap:10px;">
+              <label>Name</label><input name="name" required>
+              <label>Teacher ID</label><input name="id" required>
+              <label>Subject</label><input name="subject" required>
+              <label>Login Username</label><input name="loginUser" required>
+              <label>Login Password</label><input name="loginPassword" type="password" required>
+              <label>Classes (Grades)</label>
+              <div class="class-grid" id="profile-class-box">
+                <label><input type="checkbox" name="classes" value="Grade 1"> G1</label>
+                <label><input type="checkbox" name="classes" value="Grade 2"> G2</label>
+                <label><input type="checkbox" name="classes" value="Grade 3"> G3</label>
+                <label><input type="checkbox" name="classes" value="Grade 4"> G4</label>
+                <label><input type="checkbox" name="classes" value="Grade 5"> G5</label>
+                <label><input type="checkbox" name="classes" value="Grade 6"> G6</label>
+                <label><input type="checkbox" name="classes" value="Grade 7"> G7</label>
+                <label><input type="checkbox" name="classes" value="Grade 8"> G8</label>
+                <label><input type="checkbox" name="classes" value="Grade 9"> G9</label>
+                <label><input type="checkbox" name="classes" value="Grade 10"> G10</label>
+                <label><input type="checkbox" name="classes" value="Grade 11"> G11</label>
+                <label><input type="checkbox" name="classes" value="Grade 12"> G12</label>
+              </div>
+              <button type="submit">Save Teacher</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+// helpers
+const $ = sel => document.querySelector(sel);
+const key = { students:'mbk_students', teachers:'mbk_teachers', classes:'mbk_classes', attendance:'mbk_attendance', announcements:'mbk_announcements', admin:'mbk_admin' };
+const defaultAdmin = { user:'karim', pass:'445566', photo:'' };
+let admin = JSON.parse(localStorage.getItem(key.admin) || 'null') || defaultAdmin;
+const saveAdmin = creds => { admin = {...admin, ...creds}; localStorage.setItem(key.admin, JSON.stringify(admin)); };
+const store = { read:k=>JSON.parse(localStorage.getItem(k)||'[]'), write:(k,v)=>localStorage.setItem(k,JSON.stringify(v)) };
+const toBase64 = file => new Promise(res=>{const r=new FileReader();r.onload=()=>res(r.result);r.readAsDataURL(file);});
+const today = ()=> new Date().toISOString().slice(0,10);
+
+// state
+let students = store.read(key.students);
+let teachers = store.read(key.teachers);
+let classes = store.read(key.classes);
+let attendance = store.read(key.attendance); // [{date, records:[{id,status}]}]
+let announcements = store.read(key.announcements);
+let currentProfile=null;
+let currentUser=null;
+let charts={};
+function setTeacherFormEnabled(on=true){
+  const form=$('#teacher-form'); if(!form) return;
+  form.querySelectorAll('input,textarea,select,button').forEach(el=>el.disabled=!on);
+}
+setTeacherFormEnabled(true);
+
+const syncFromStorage=()=>{
+  students = store.read(key.students);
+  teachers = store.read(key.teachers);
+  classes = store.read(key.classes);
+  attendance = store.read(key.attendance);
+  announcements = store.read(key.announcements);
+  admin = JSON.parse(localStorage.getItem(key.admin) || 'null') || defaultAdmin;
+};
+
+// Seed sample data once (no credentials shown)
+if(!localStorage.getItem('mbk_seeded_v2')){
+  students=[{
+    name:'Demo Student',id:'STU-001',age:10,className:'Grade 1',
+    guardian:'Guardian Demo',phone:'000-000-0000',email:'student@example.com',
+    address:'Demo Address',feeStatus:'Pending'
+  }];
+  teachers=[{
+    name:'Demo Teacher',id:'TCH-001',subject:'English',
+    loginUser:'demo',loginPassword:'demo123',classes:['Grade 1'],
+    phone:'000-000-1111',email:'teacher@example.com',address:'Demo Address'
+  }];
+  classes=[{name:'Grade 1',room:'Room A1',teacher:'Demo Teacher'}];
+  announcements=[{title:'Welcome',body:'This is sample data. You can edit or delete.',date:today()}];
+  store.write(key.students,students); store.write(key.teachers,teachers);
+  store.write(key.classes,classes); store.write(key.announcements,announcements);
+  localStorage.setItem('mbk_seeded_v2','yes');
+}
+
+// auth
+$('#login-form').addEventListener('submit',e=>{
+  e.preventDefault();
+  const formData=Object.fromEntries(new FormData(e.target));
+  formData.user = (formData.user||'').trim();
+  formData.pass = formData.pass||'';
+  const role=formData.role;
+  syncFromStorage(); // always refresh latest saved data before auth
+  if(role==='admin'){
+    if(formData.user===admin.user && formData.pass===admin.pass){
+      currentUser={role:'admin'};
+      afterLogin('dashboard');
+    }else return showLoginError();
+  }else{
+    const match=teachers.find(t=>t.loginUser===formData.user && t.loginPassword===formData.pass);
+    if(match){
+      currentUser={role:'teacher',id:match.id,name:match.name};
+      afterLogin('attendance');
+    }else return showLoginError();
+  }
+});
+const showLoginError=()=>{$('#login-error').style.display='block';};
+const afterLogin=(startView)=>{
+  $('#login-view').classList.add('hidden');
+  $('#app-view').classList.remove('hidden');
+  $('#att-date').value=today();
+  updateNavForRole();
+  syncFromStorage();
+  renderAll();
+  showView('nav-home');
+  fillAdminForm();
+};
+$('#logout').onclick=()=>location.reload();
+
+// navigation
+document.querySelectorAll('[data-target]').forEach(btn=>btn.onclick=()=>{
+  let target = btn.dataset.target;
+  if(currentUser?.role==='teacher' && (target==='dashboard' || target==='nav-home')) target='nav-home';
+  showView(target);
+});
+const teacherAllowed=['attendance','nav-home','announcements'];
+const showView=view=>{
+  if(currentUser?.role==='teacher' && !teacherAllowed.includes(view)){ view='nav-home'; }
+  document.querySelectorAll('.view').forEach(v=>v.classList.add('hidden'));
+  $('#'+view).classList.remove('hidden');
+  if(view==='dashboard'){ $('#dashboard-cards')?.classList.remove('hidden'); renderDashboard(); }
+};
+$('#back-btn').onclick=()=>showView(currentProfile?.role==='student'?'students':'teachers');
+
+const updateNavForRole=()=>{
+  const isTeacher=currentUser?.role==='teacher';
+  document.querySelectorAll('[data-target]').forEach(btn=>{
+    const allowed = !isTeacher || teacherAllowed.includes(btn.dataset.target);
+    btn.style.display = allowed ? 'inline-flex' : 'none';
+  });
+  const settingsBtn=$('#settings-btn');
+  if(settingsBtn) settingsBtn.style.display = isTeacher ? 'none' : 'inline-flex';
+  if($('#nav-subtitle')) $('#nav-subtitle').textContent = isTeacher ? 'Teacher Workspace' : 'Admin Workspace';
+  if($('#att-back-btn')) $('#att-back-btn').style.display = isTeacher ? 'inline-flex' : 'none';
+  if(isTeacher){
+    $('#home-admin-brand')?.classList.add('hidden');
+    $('#home-teacher-classes')?.classList.remove('hidden');
+  }else{
+    $('#home-admin-brand')?.classList.remove('hidden');
+    $('#home-teacher-classes')?.classList.add('hidden');
+  }
+  const annSec=$('#announce-form')?.closest('.section');
+  if(annSec){
+    annSec.style.display = isTeacher ? 'none' : 'block';
+    annSec.parentElement.style.gridTemplateColumns = isTeacher ? '1fr' : '1fr 1fr';
+  }
+  updateTeacherClassFilter();
+};
+
+// dashboard render
+const renderDashboard=()=>{
+  syncFromStorage(); // ensure we always read persisted latest
+  $('#total-students').textContent=students.length;
+  $('#total-teachers').textContent=teachers.length;
+  $('#total-classes').textContent=classes.length;
+  const due=students.filter(s=>s.feeStatus!=='Paid').length;
+  $('#fees-due').textContent=`${due} pending`;
+  // announcements preview
+  $('#announce-preview').innerHTML=announcements.slice(-3).reverse().map(a=>`
+    <div class="list-item" style="cursor:default;">
+      <div>
+        <div style="font-weight:700;">${a.title}</div>
+        <div class="muted" style="font-size:.9rem;">${a.date}</div>
+        <div>${a.body}</div>
+      </div>
+    </div>`).join('') || '<p class="muted">No announcements yet.</p>';
+  // attendance today
+  const todayRec = attendance.find(a=>a.date===today());
+  $('#att-status').textContent = todayRec ? `${todayRec.records.filter(r=>r.status==='Present').length} present, ${todayRec.records.length} marked` : 'No attendance recorded today.';
+};
+
+// card helper
+const card=(item,role)=>`
+  <div class="list-item" data-role="${role}" data-id="${item.id}">
+    <img class="avatar" src="${item.photo||'https://via.placeholder.com/80'}" alt="">
+    <div>
+      <div style="font-weight:700;">${item.name}</div>
+      <div class="muted" style="font-size:.9rem;">ID: ${item.id}</div>
+      <div class="badge" style="margin-top:6px;">${role==='student'?(item.className||'Class N/A'):(item.subject||'N/A')}</div>
+    </div>
+  </div>`;
+
+// list render
+const renderLists=()=>{
+  const sTerm=$('#student-search').value?.toLowerCase()||'';
+  const studentRows=students
+    .filter(s=>s.name.toLowerCase().includes(sTerm)||s.id.toLowerCase().includes(sTerm))
+    .map(s=>`<tr data-id="${s.id}" class="student-row" style="cursor:pointer;">
+      <td>${s.name}</td><td>${s.id}</td><td>${s.className||'&mdash;'}</td><td>${s.feeStatus||'&mdash;'}</td>
+    </tr>`).join('');
+  $('#student-tbody').innerHTML=studentRows || '<tr><td colspan="4" class="muted">No students yet.</td></tr>';
+
+  const tTerm=$('#teacher-search').value?.toLowerCase()||'';
+  const teacherRows=teachers
+    .filter(t=>t.name.toLowerCase().includes(tTerm)||t.id.toLowerCase().includes(tTerm))
+    .map(t=>`<tr data-id="${t.id}" class="teacher-row" style="cursor:pointer;">
+      <td>${t.name}</td><td>${t.id}</td><td>${t.subject||'—'}</td><td>${(t.classes||[]).join(', ')||'—'}</td>
+    </tr>`).join('');
+  $('#teacher-tbody').innerHTML=teacherRows || '<tr><td colspan="4" class="muted">No teachers yet.</td></tr>';
+
+  document.querySelectorAll('.student-row').forEach(el=>el.onclick=()=>openProfile('student',el.dataset.id));
+  document.querySelectorAll('.teacher-row').forEach(el=>el.onclick=()=>openProfile('teacher',el.dataset.id));
+};
+
+// classes render
+const renderClasses=()=>{
+  $('#class-list').innerHTML = classes.map(c=>`
+    <div class="list-item" style="cursor:default;">
+      <div>
+        <div style="font-weight:700;">${c.name}</div>
+        <div class="muted">${c.room||'Room N/A'} · ${c.teacher||'Teacher TBD'}</div>
+      </div>
+    </div>`).join('') || '<p class="muted">Add the first class.</p>';
+};
+
+// attendance render
+const renderAttendance=()=>{
+  updateTeacherClassFilter();
+  const date=$('#att-date').value||today();
+  $('#att-date').value=date;
+  const rec = attendance.find(a=>a.date===date) || {records:[]};
+  const locked = !!attendance.find(a=>a.date===date);
+  // If teacher, limit to their assigned classes
+  let allowedStudents = students;
+  if(currentUser?.role==='teacher'){
+    const teacher = teachers.find(t=>t.id===currentUser.id);
+    const allowedClasses = teacher?.classes || [];
+    const classFilter = $('#att-class-filter')?.value || '';
+    allowedStudents = students.filter(s=>{
+      if(!allowedClasses.length) return false;
+      const inAssigned = allowedClasses.some(c=> (s.className||'').toLowerCase() === c.toLowerCase());
+      const matchesFilter = !classFilter || (s.className||'').toLowerCase() === classFilter.toLowerCase();
+      return inAssigned && matchesFilter;
+    });
+    const summary = $('#teacher-assign-summary');
+    if(summary){
+      summary.style.display='block';
+      summary.textContent = `Your classes: ${allowedClasses.join(', ')||'None'}. Showing ${allowedStudents.length} students.`;
+    }
+  }
+  $('#attendance-list').innerHTML = allowedStudents.map(st=>{
+    const found = rec.records.find(r=>r.id===st.id)?.status || 'Present';
+    return `<label class="list-item" style="cursor:${locked?'default':'pointer'};align-items:center;gap:14px;">
+      <input type="checkbox" data-id="${st.id}" ${found==='Present'?'checked':''} ${locked?'disabled':''} style="width:18px;height:18px;">
+      <div>
+        <div style="font-weight:700;">${st.name}</div>
+        <div class="muted" style="font-size:.9rem;">${st.className||'Class N/A'}</div>
+      </div>
+    </label>`;
+  }).join('') || '<p class="muted">Add students to mark attendance.</p>';
+  $('#save-attendance').style.display = locked ? 'none' : 'inline-block';
+  if(locked){
+    $('#save-attendance').nextElementSibling?.remove();
+  }
+  $('#save-note')?.remove();
+  const note = document.createElement('div');
+  note.id='save-note';
+    note.className='muted';
+    note.style.marginTop='8px';
+    note.textContent = locked ? 'Attendance locked for this date.' : 'Mark and save. Once saved, it locks.';
+    $('#attendance').querySelector('.section').appendChild(note);
+  };
+
+const showProfileEditPanel=(teacher)=>{
+  const panel=$('#profile-edit-panel'); const form=$('#profile-edit-form');
+  if(!panel||!form) return;
+  panel.classList.remove('hidden');
+  form.name.value=teacher.name||'';
+  form.id.value=teacher.id||'';
+  form.subject.value=teacher.subject||'';
+  form.loginUser.value=teacher.loginUser||'';
+  form.loginPassword.value=teacher.loginPassword||'';
+  form.querySelectorAll('input[name=\"classes\"]').forEach(cb=>{
+    cb.checked = (teacher.classes||[]).includes(cb.value);
+  });
+  form.onsubmit = e=>{
+    e.preventDefault();
+    const fd=new FormData(form);
+    const payload=Object.fromEntries(fd.entries());
+    payload.classes=[...form.querySelectorAll('input[name=\"classes\"]:checked')].map(c=>c.value);
+    const idx=teachers.findIndex(t=>t.id===teacher.id);
+    if(idx>=0){
+      teachers[idx]={...teachers[idx],...payload};
+      store.write(key.teachers,teachers);
+      panel.classList.add('hidden');
+      renderAll();
+      openProfile('teacher',teachers[idx].id);
+      alert('Teacher updated.');
+    }
+  };
+};
+
+window.deleteAnnounce = idx => {
+  if(!confirm('Delete this announcement?')) return;
+  announcements.splice(idx, 1);
+  store.write(key.announcements, announcements);
+  renderAnnouncements(); renderDashboard();
+};
+window.editAnnounce = idx => {
+  const a = announcements[idx];
+  const f = $('#announce-form');
+  if(!f) return;
+  f.title.value = a.title;
+  f.body.value = a.body;
+  f.editIdx.value = idx;
+  f.querySelector('button[type="submit"]').textContent = 'Update Announcement';
+};
+
+// announcements render
+const renderAnnouncements=()=>{
+  const isAdmin = currentUser?.role === 'admin';
+  $('#announce-list').innerHTML = announcements.slice().reverse().map((a, i)=>`
+    <div class="section" style="padding:12px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <strong>${a.title}</strong>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <span class="muted" style="font-size:.85rem;">${a.date}</span>
+          ${isAdmin ? `
+            <button class="secondary" style="padding:4px 8px;font-size:.7rem;" onclick="editAnnounce(${announcements.length-1-i})">Edit</button>
+            <button class="danger" style="padding:4px 8px;font-size:.7rem;" onclick="deleteAnnounce(${announcements.length-1-i})">Delete</button>
+          ` : ''}
+        </div>
+      </div>
+      <div style="margin-top:6px;">${a.body}</div>
+    </div>`).join('') || '<p class="muted">No announcements yet.</p>';
+};
+
+// render all
+const renderAll=()=>{syncFromStorage();renderDashboard();renderLists();renderClasses();renderAttendance();renderAnnouncements();};
+
+// build teacher class filter for attendance
+const updateTeacherClassFilter=()=>{
+  const sel=$('#att-class-filter');
+  const summary=$('#teacher-assign-summary');
+  const homeList=$('#home-class-list');
+  const dashCards=$('#teacher-dashboard-classes');
+  if(!sel) return;
+  if(currentUser?.role!=='teacher'){
+    sel.style.display='none';
+    if(summary) summary.style.display='none';
+    if(homeList) homeList.innerHTML='';
+    if(dashCards) dashCards.innerHTML='';
+    return;
+  }
+  const teacher=teachers.find(t=>t.id===currentUser.id);
+  const classes=teacher?.classes||[];
+  sel.innerHTML = `<option value="">All assigned classes</option>` +
+    classes.map(c=>`<option value="${c}">${c}</option>`).join('');
+  sel.style.display='inline-block';
+  if(summary) summary.style.display='block';
+  if(homeList){
+    const counts = classes.map(c=>{
+      const cnt = students.filter(s=>(s.className||'').toLowerCase() === c.toLowerCase()).length;
+      return {c, cnt};
+    });
+    homeList.innerHTML = counts.length ? counts.map(({c,cnt})=>`
+      <div class="class-card" data-class="${c}">
+        <div style="font-weight:700;">${c}</div>
+        <div class="muted" style="font-size:.9rem;">${cnt} Students</div>
+        <div class="muted" style="font-size:.85rem;">Tap to take attendance</div>
+      </div>`).join('') : '<p class="muted">No classes assigned</p>';
+    homeList.querySelectorAll('.class-card').forEach(card=>{
+      card.onclick=()=>{
+        const filter = $('#att-class-filter');
+        if(filter) filter.value = card.dataset.class;
+        $('#att-date').value = today();
+        showView('attendance');
+        renderAttendance();
+      };
+    });
+  }
+};
+
+// profile view
+function openProfile(role,id){
+  const data=role==='student'?students:teachers;
+  const item=data.find(x=>x.id===id); if(!item) return;
+  currentProfile={role,id};
+  $('#profile-photo').src=item.photo||'https://via.placeholder.com/200';
+  $('#profile-name').textContent=item.name;
+  $('#profile-role').textContent=role==='student'?'Student':'Teacher';
+  $('#profile-details').innerHTML=Object.entries(item)
+    .filter(([k])=>k!=='photo'&&k!=='name'&&k!=='loginPassword')
+    .map(([k,v])=>`<div><strong>${k.replace(/([A-Z])/g,' $1').toUpperCase()}:</strong> ${v||'—'}</div>`).join('');
+  $('#profile-edit').onclick=()=>{
+    if(role==='teacher' && currentUser?.role==='admin'){
+      showProfileEditPanel(item);
+    }else{
+      loadIntoForm(role,item);
+    }
+  };
+  $('#profile-delete').onclick=()=>deleteEntity(role,id);
+  showView('profile');
+}
+
+// forms
+$('#student-form').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const fd=new FormData(e.target); const editId=fd.get('editId'); const file=fd.get('photo');
+  const payload=Object.fromEntries(fd.entries());
+  if(file && file.size) payload.photo=await toBase64(file); else delete payload.photo;
+  payload.age=Number(payload.age);
+  if(editId){const idx=students.findIndex(s=>s.id===editId);students[idx]={...students[idx],...payload,id:editId};}
+  else students.push(payload);
+  store.write(key.students,students);
+  e.target.reset(); renderAll(); alert('Student saved');
+});
+$('#teacher-form').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const fd=new FormData(e.target); const editId=fd.get('editId'); const file=fd.get('photo');
+  const payload=Object.fromEntries(fd.entries());
+  payload.classes=[...e.target.querySelectorAll('input[name="classes"]:checked')].map(c=>c.value);
+  if(!Array.isArray(payload.classes)) payload.classes=[];
+  if(file && file.size) payload.photo=await toBase64(file); else delete payload.photo;
+  if(editId){const idx=teachers.findIndex(t=>t.id===editId);teachers[idx]={...teachers[idx],...payload,id:editId};}
+  else teachers.push(payload);
+  store.write(key.teachers,teachers);
+  e.target.reset(); renderAll(); alert('Teacher saved');
+});
+$('#class-form').addEventListener('submit',e=>{
+  e.preventDefault();
+  const data=Object.fromEntries(new FormData(e.target).entries());
+  classes.push(data); store.write(key.classes,classes);
+  e.target.reset(); renderClasses(); alert('Class saved');
+});
+$('#announce-form').addEventListener('submit',e=>{
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const data = Object.fromEntries(fd.entries());
+  const idx = fd.get('editIdx');
+  if(idx !== "" && idx !== null){
+    announcements[idx] = { ...announcements[idx], title: data.title, body: data.body };
+  } else {
+    announcements.push({ title: data.title, body: data.body, date: today() });
+  }
+  store.write(key.announcements,announcements);
+  e.target.reset();
+  if(e.target.editIdx) e.target.editIdx.value = "";
+  e.target.querySelector('button[type="submit"]').textContent = 'Publish';
+  renderAnnouncements(); renderDashboard();
+});
+
+const loadIntoForm=(role,item)=>{
+  const form=role==='student'?$('#student-form'):$('#teacher-form');
+  form.reset();
+  Object.entries(item).forEach(([k,v])=>{
+    if(form.elements[k]) form.elements[k].value=v;
+  });
+  if(role==='teacher' && item.classes){
+    form.querySelectorAll('input[name="classes"]').forEach(cb=>{
+      cb.checked = item.classes.includes(cb.value);
+    });
+  }
+  form.elements.editId.value=item.id;
+  showView(role==='student'?'students':'teachers');
+};
+const deleteEntity=(role,id)=>{
+  if(!confirm('Delete permanently?')) return;
+  if(role==='student'){students=students.filter(s=>s.id!==id);store.write(key.students,students);}
+  else{teachers=teachers.filter(t=>t.id!==id);store.write(key.teachers,teachers);}
+  renderAll(); showView(role==='student'?'students':'teachers');
+};
+$('#student-reset').onclick=()=>$('#student-form').reset();
+$('#teacher-reset').onclick=()=>$('#teacher-form').reset();
+  $('#student-search').oninput=renderLists;
+  $('#teacher-search').oninput=renderLists;
+
+// admin credential form
+const fillAdminForm=()=>{
+  const f=$('#admin-form'); if(!f) return;
+  f.user.value=admin.user; f.pass.value=admin.pass;
+  const p=$('#admin-photo-preview'); if(p) p.src = admin.photo || 'https://via.placeholder.com/120?text=Admin';
+};
+$('#admin-form')?.addEventListener('submit',e=>{
+  e.preventDefault();
+  const fd=new FormData(e.target);
+  const file=$('#admin-photo')?.files?.[0];
+  const data=Object.fromEntries(fd.entries());
+  const finish=photoData=>{
+    if(photoData) data.photo=photoData;
+    saveAdmin(data);
+    fillAdminForm();
+    alert('Admin settings updated and saved in this browser.');
+  };
+  if(file) toBase64(file).then(finish); else finish(null);
+});
+$('#admin-photo')?.addEventListener('change',async e=>{
+  const file=e.target.files?.[0]; if(!file) return;
+  const b64=await toBase64(file);
+  admin.photo=b64; saveAdmin(admin); fillAdminForm();
+});
+$('#admin-logout')?.addEventListener('click',()=>location.reload());
+
+// student import
+const parseCSV=(text)=>{
+  const lines=text.trim().split(/\r?\n/);
+  return lines.map(l=>l.split(',').map(s=>s.trim()));
+};
+const importStudents = arr=>{
+  arr.forEach(cols=>{
+    const [name,id,age,className,guardian,phone,email,address,feeStatus] = cols;
+    if(!name||!id) return;
+    students.push({name,id,age:Number(age||0),className,guardian,phone,email,address,feeStatus:feeStatus||'Pending'});
+  });
+  store.write(key.students,students);
+  renderAll();
+  alert('Students imported');
+};
+$('#student-import-btn')?.addEventListener('click',()=>{
+  const txt=$('#student-import-text').value||'';
+  if(txt.trim()){
+    importStudents(parseCSV(txt));
+    $('#student-import-text').value='';
+    return;
+  }
+  const file=$('#student-import-file')?.files?.[0];
+  if(file){
+    file.text().then(t=>importStudents(parseCSV(t)));
+  }else{
+    alert('Add CSV text or choose a CSV file first.');
+  }
+});
+
+// teacher import
+const importTeachers = arr=>{
+  arr.forEach(cols=>{
+    const [name,id,subject,classesStr,loginUser,loginPassword,phone,email,address] = cols;
+    if(!name||!id||!loginUser||!loginPassword) return;
+    const classes = (classesStr||'').split('|').map(s=>s.trim()).filter(Boolean);
+    teachers.push({name,id,subject,classes,loginUser,loginPassword,phone,email,address});
+  });
+  store.write(key.teachers,teachers);
+  renderAll();
+  alert('Teachers imported');
+};
+$('#teacher-import-btn')?.addEventListener('click',()=>{
+  const txt=$('#teacher-import-text').value||'';
+  if(txt.trim()){
+    importTeachers(parseCSV(txt));
+    $('#teacher-import-text').value='';
+    return;
+  }
+  const file=$('#teacher-import-file')?.files?.[0];
+  if(file){
+    file.text().then(t=>importTeachers(parseCSV(t)));
+  }else{
+    alert('Add CSV text or choose a CSV file first.');
+  }
+});
+
+// attendance saving
+$('#att-date').onchange=renderAttendance;
+$('#att-back-btn').onclick=()=>showView('nav-home');
+$('#save-attendance').onclick=()=>{
+  const date=$('#att-date').value||today();
+  const records=[...document.querySelectorAll('#attendance-list input[type=checkbox]')].map(cb=>({id:cb.dataset.id,status:cb.checked?'Present':'Absent'}));
+  const existing=attendance.find(a=>a.date===date);
+  if(existing) existing.records=records; else attendance.push({date,records});
+  store.write(key.attendance,attendance);
+  alert('Attendance saved and locked');
+  renderDashboard(); renderAttendance();
+};
+</script>
+</body>
+</html>
