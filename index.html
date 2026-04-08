@@ -4,35 +4,55 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>MBK International School - Management Suite</title>
+  <link rel="icon" type="image/webp" href="school-logo.webp">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg:#f4f7fc;--panel:#ffffff;--card:#e9f0fb;--accent:#1b78f2;--accent2:#2f9e44;
-      --text:#162038;--muted:#67738a;--border:#d6e0f2;--danger:#e63946;--shadow:0 18px 40px rgba(0,0,0,.08);
+      --bg:#f4f7fc;--panel:rgba(255,255,255,.64);--card:rgba(235,244,255,.58);--accent:#1b78f2;--accent2:#2f9e44;
+      --text:#162038;--muted:#596579;--border:rgba(214,224,242,.55);--danger:#e63946;--shadow:0 18px 40px rgba(0,0,0,.18);
       --radius:16px;font-family:"Poppins",system-ui,-apple-system,sans-serif;
     }
     *{box-sizing:border-box;}
-    body{margin:0;background:radial-gradient(circle at 18% 18%,#fff5e6 0,#f7efe1 25%,#f2ebdf 55%,#efe7db 100%);color:var(--text);}
+    body{margin:0;background:#d7dee8;color:var(--text);position:relative;overflow-x:hidden;min-height:100vh;}
+    body::before{
+      content:"";
+      position:fixed;inset:0;z-index:-3;
+      background:
+        linear-gradient(130deg,rgba(11,38,82,.26),rgba(11,38,82,.08)),
+        url("background.webp") center/cover no-repeat;
+    }
+    body::after{
+      content:"";
+      position:fixed;inset:0;z-index:-2;
+      background:linear-gradient(180deg,rgba(236,242,251,.18),rgba(236,242,251,.34));
+      pointer-events:none;
+    }
     main{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:28px;}
-    .panel{width:100%;max-width:1280px;background:var(--panel);padding:30px;border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border);}
+    .panel{
+      width:100%;max-width:1280px;background:var(--panel);padding:30px;border-radius:var(--radius);
+      box-shadow:var(--shadow);border:1px solid var(--border);
+    }
     h1,h2,h3,h4{margin:0;}
     .hidden{display:none;}
-    button{cursor:pointer;border:none;border-radius:12px;padding:10px 14px;font-weight:600;transition:.15s;background:var(--accent);color:#3c2100;}
-    button.secondary{background:var(--card);color:var(--text);border:1px solid var(--border);}
+    button{cursor:pointer;border:none;border-radius:12px;padding:10px 14px;font-weight:600;transition:background-color .15s ease, color .15s ease, opacity .15s ease;background:var(--accent);color:#fff;box-shadow:0 6px 12px rgba(27,120,242,.14);}
+    button:hover{filter:brightness(1.03);}
+    button.secondary{background:rgba(255,255,255,.5);color:var(--text);border:1px solid var(--border);box-shadow:none;}
+    button.secondary:hover{background:rgba(255,255,255,.75);}
     button.danger{background:var(--danger);color:#fff;}
-    input,select,textarea{width:100%;padding:10px;border-radius:12px;border:1px solid var(--border);background:#fff;color:var(--text);font-family:inherit;}
+    input,select,textarea{width:100%;padding:10px;border-radius:12px;border:1px solid var(--border);background:rgba(255,255,255,.82);color:var(--text);font-family:inherit;transition:border-color .15s, box-shadow .15s;}
+    input:focus,select:focus,textarea:focus{outline:none;border-color:rgba(27,120,242,.65);box-shadow:0 0 0 3px rgba(27,120,242,.14);}
     label{display:block;font-size:.9rem;margin:8px 0 4px;color:var(--muted);}
     .grid{display:grid;gap:16px;}
     .cards{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
-    .nav{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:18px;}
+    .nav{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:18px;background:rgba(255,255,255,.34);padding:10px;border:1px solid var(--border);border-radius:14px;}
     .nav button{padding:10px 12px;}
     .pill{border:1px solid var(--border);background:var(--card);padding:10px 14px;border-radius:999px;}
     .logo{display:flex;align-items:center;gap:10px;}
     .logo-mark{width:42px;height:42px;border-radius:12px;object-fit:cover;box-shadow:0 10px 20px rgba(27,120,242,.25);}
     .hero{display:grid;grid-template-columns:1.2fr 1fr;gap:24px;align-items:center;}
-    .list-item{background:var(--card);padding:10px 12px;border-radius:12px;display:flex;gap:10px;align-items:center;cursor:pointer;border:1px solid var(--border);}
+    .list-item{background:var(--card);padding:10px 12px;border-radius:12px;display:flex;gap:10px;align-items:center;cursor:pointer;border:1px solid var(--border);transition:border-color .15s;}
     .list-item:hover{border-color:var(--accent);}
     .avatar{width:48px;height:48px;border-radius:12px;object-fit:cover;background:#f2eadf;}
     .profile{display:grid;gap:18px;grid-template-columns:180px 1fr;align-items:start;}
@@ -43,13 +63,74 @@
     .hero-brand h1{font-size:32px;}
     .logo-hero{width:220px;height:220px;object-fit:cover;border-radius:24px;box-shadow:var(--shadow);}
     .class-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;}
-    .class-card{padding:14px;border-radius:12px;border:1px solid var(--border);background:var(--panel);box-shadow:var(--shadow);cursor:pointer;}
+    .class-card{padding:14px;border-radius:12px;border:1px solid var(--border);background:rgba(255,255,255,.7);box-shadow:0 8px 16px rgba(0,0,0,.08);cursor:pointer;}
     .class-card:hover{border-color:var(--accent);}
     .big-class-btn{padding:16px 30px;font-size:20px;font-weight:700;border-radius:14px;box-shadow:var(--shadow);background:var(--accent);color:#fff;border:none;cursor:pointer;}
-    table{width:100%;border-collapse:collapse;font-size:.94rem;}
+    table{width:100%;border-collapse:separate;border-spacing:0;font-size:.94rem;background:rgba(255,255,255,.35);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
     th,td{padding:10px;border-bottom:1px solid var(--border);text-align:left;}
+    th{background:rgba(255,255,255,.62);font-weight:700;font-size:.84rem;letter-spacing:.02em;text-transform:uppercase;color:#3f4f68;}
+    tr:last-child td{border-bottom:none;}
+    tbody tr:hover{background:rgba(255,255,255,.56);}
     .section{background:var(--card);padding:14px;border-radius:var(--radius);border:1px solid var(--border);}
+    .section h3,.section h4{margin-bottom:8px;}
+    #dashboard .section h2{margin-top:6px;font-size:2rem;}
+    .actions{display:flex;gap:10px;flex-wrap:wrap;}
+    .actions button{padding:8px 10px;}
+    .pager{display:flex;gap:8px;align-items:center;justify-content:flex-end;margin-top:10px;font-size:.86rem;color:var(--muted);}
+    .pager button{padding:6px 10px;box-shadow:none;}
+    .table-wrap{overflow:auto;max-height:60vh;}
+
+    /* ID Card Print Styles */
+    #id-card-print-area { display: none; }
+    @media print {
+      body * { visibility: hidden; }
+      #id-card-print-area, #id-card-print-area * { visibility: visible; }
+      #id-card-print-area { display: block !important; position: absolute; left: 0; top: 0; width: 100%; }
+      @page { size: portrait; margin: 0; }
+    }
+    .id-card {
+      width: 3.375in; height: 2.125in; border: 1px solid #ddd; border-radius: 12px;
+      padding: 12px; background: #fff; display: flex; flex-direction: column;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1); font-family: 'Poppins', sans-serif;
+      margin: 20px auto; overflow: hidden; position: relative;
+    }
+    .id-card::before { content: ""; position: absolute; inset: 0; background: url('school-logo.webp') center/60% no-repeat; opacity: 0.05; z-index: 0; }
+    .id-card > * { z-index: 1; }
+    .id-card-header { display: flex; align-items: center; gap: 8px; border-bottom: 1.5px solid var(--accent); padding-bottom: 6px; margin-bottom: 8px; }
+    .id-card-header img { width: 32px; height: 32px; border-radius: 4px; }
+    .id-card-body { display: flex; gap: 12px; align-items: flex-start; }
+    .id-card-photo { width: 75px; height: 90px; object-fit: cover; border-radius: 6px; border: 1px solid #eee; background: #fafafa; }
+    .id-card-info { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+    .id-card-info .val { font-size: 0.8rem; font-weight: 600; color: var(--text); line-height: 1.2; }
+    .id-card-info .lbl { font-size: 0.6rem; font-weight: 700; color: var(--muted); text-transform: uppercase; }
+    .id-card-footer { margin-top: auto; text-align: center; font-size: 0.65rem; font-weight: 700; color: var(--accent); border-top: 1px solid #eee; padding-top: 4px; }
     
+    /* Splash Screen */
+    #splash-screen {
+      position: fixed; inset: 0; background: #f4f7fc;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      z-index: 20000; transition: opacity 0.6s ease, visibility 0.6s;
+    }
+    #splash-screen.fade-out { opacity: 0; visibility: hidden; }
+    .splash-logo {
+      width: 140px; height: 140px; object-fit: cover; border-radius: 28px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15); margin-bottom: 20px;
+      animation: splash-pulse 2s infinite ease-in-out;
+    }
+    @keyframes splash-pulse {
+      0% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.04); opacity: 1; }
+      100% { transform: scale(1); opacity: 0.8; }
+    }
+
+    /* Toast Notifications */
+    .toast-container{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:10000;display:flex;flex-direction:column;gap:10px;pointer-events:none;width:min(90vw,400px);}
+    .toast{background:rgba(15,23,42,0.9);color:#fff;padding:12px 18px;border-radius:14px;font-size:.9rem;font-weight:600;box-shadow:0 15px 35px rgba(0,0,0,0.25);backdrop-filter:blur(10px);border-left:5px solid var(--accent);animation:toastIn .3s cubic-bezier(0.16, 1, 0.3, 1) forwards;}
+    .toast.success{border-left-color:var(--accent2);}
+    .toast.error{border-left-color:var(--danger);}
+    @keyframes toastIn{from{opacity:0;transform:translateY(-20px) scale(0.95);}to{opacity:1;transform:translateY(0) scale(1);}}
+    .toast.fade-out{opacity:0;transform:translateY(-10px);transition:opacity .3s, transform .3s;}
+
     /* Responsive Adjustments */
     @media(max-width:960px){
       main{padding:14px;}
@@ -74,13 +155,18 @@
   </style>
 </head>
 <body>
+<div id="splash-screen">
+  <img src="school-logo.webp" alt="MBK Logo" class="splash-logo">
+  <div style="font-weight:600; color:var(--muted); letter-spacing:0.05em; font-size:0.9rem;">CONNECTING TO CLOUD...</div>
+</div>
+<div id="id-card-print-area"></div>
 <main>
   <!-- LOGIN -->
   <section id="login-view" class="panel">
     <div class="hero">
       <div>
         <div class="logo">
-          <img src="school logo.jpeg" alt="MBK logo" class="logo-mark">
+          <img loading="lazy" decoding="async" src="school-logo.webp" alt="MBK logo" class="logo-mark">
           <div>
             <h1>MBK International School</h1>
             <p class="muted">Unified School Management Suite</p>
@@ -125,7 +211,7 @@
   <section id="app-view" class="panel hidden">
     <div class="nav" id="top-nav">
         <div class="logo" style="flex:1;">
-          <img src="school logo.jpeg" alt="MBK logo" class="logo-mark">
+          <img loading="lazy" decoding="async" src="school-logo.webp" alt="MBK logo" class="logo-mark">
         <div>
           <div style="font-weight:700;">MBK International School</div>
           <div class="muted" id="nav-subtitle" style="font-size:.9rem;">Admin Workspace</div>
@@ -137,6 +223,7 @@
       <button data-target="classes" id="classes-nav-btn">Classes</button>
       <button data-target="announcements">Announcements</button>
       <button class="secondary" id="settings-btn" data-target="admin-settings" style="display:none;">Settings</button>
+      <button class="secondary" id="sync-now" title="Refresh data from cloud">↻ Sync</button>
       <button class="secondary" id="logout">Logout</button>
     </div>
 
@@ -144,7 +231,7 @@
     <div id="nav-home" class="view">
       <div class="hero-brand" id="home-admin-brand">
         <h1>MBK International School</h1>
-        <img src="school logo.jpeg" alt="MBK logo large" class="logo-hero">
+        <img loading="lazy" decoding="async" src="school-logo.webp" alt="MBK logo large" class="logo-hero">
       </div>
       <div class="hero-brand hidden" id="home-teacher-classes" style="gap:10px; padding-top: 10px;">
         <h2 class="muted">Classes</h2>
@@ -195,15 +282,19 @@
       <div class="nav" style="margin:0 0 10px;">
         <h3 style="flex:1;">Students</h3>
         <input id="student-search" placeholder="Search by name or ID" style="max-width:260px;">
+        <button class="secondary" id="student-export-csv">Export CSV</button>
       </div>
       <div class="grid" style="grid-template-columns:1.1fr 1fr;gap:18px;">
-        <div class="section" style="overflow:auto;">
+        <div class="section">
+          <div class="table-wrap">
           <table class="table">
             <thead>
               <tr><th>Name</th><th>ID</th><th>Class</th><th>Fee</th></tr>
             </thead>
             <tbody id="student-tbody"></tbody>
           </table>
+          </div>
+          <div class="pager" id="student-pager"></div>
         </div>
         <div class="grid" style="gap:12px;">
           <form id="student-form" class="grid section" style="gap:10px;">
@@ -244,15 +335,19 @@
         <h3 style="flex:1;">Teachers</h3>
         <input id="teacher-search" placeholder="Search by name or ID" style="max-width:260px;">
         <button class="secondary" id="teacher-new">Add Teacher</button>
+        <button class="secondary" id="teacher-export-csv">Export CSV</button>
       </div>
       <div class="grid" style="grid-template-columns:1.1fr 1fr;gap:18px;">
-        <div class="section" style="overflow:auto;">
+        <div class="section">
+          <div class="table-wrap">
           <table class="table">
             <thead>
               <tr><th>Name</th><th>ID</th><th>Subject</th><th>Classes</th></tr>
             </thead>
             <tbody id="teacher-tbody"></tbody>
           </table>
+          </div>
+          <div class="pager" id="teacher-pager"></div>
         </div>
         <div class="grid" style="gap:12px;">
           <form id="teacher-form" class="grid section" style="gap:10px;">
@@ -311,6 +406,7 @@
         <div class="section">
           <h4>All Classes</h4>
           <div id="class-list" class="grid" style="gap:8px;"></div>
+          <div class="pager" id="class-pager"></div>
         </div>
       </div>
     </div>
@@ -340,7 +436,7 @@
         <div class="section">
           <h4>Post Announcement</h4>
           <form id="announce-form" class="grid" style="gap:10px;">
-            <input type="hidden" name="editIdx">
+            <input type="hidden" name="editId">
             <label>Title</label><input name="title" required>
             <label>Message</label><textarea name="body" rows="3" required></textarea>
             <button type="submit">Publish</button>
@@ -358,7 +454,7 @@
       <div class="section" style="max-width:520px;">
         <h3>Settings</h3>
         <div style="display:flex;align-items:center;gap:12px;margin:8px 0 12px;">
-          <img id="admin-photo-preview" src="" alt="Admin" style="width:64px;height:64px;border-radius:16px;object-fit:cover;background:#e5e7eb;border:1px solid var(--border);">
+          <img loading="lazy" decoding="async" id="admin-photo-preview" src="" alt="Admin" style="width:64px;height:64px;border-radius:16px;object-fit:cover;background:#e5e7eb;border:1px solid var(--border);">
           <div>
             <div class="muted" id="admin-photo-label">Admin Profile</div>
             <input type="file" id="admin-photo" accept="image/*">
@@ -368,7 +464,7 @@
           <label>Username</label><input name="user" required>
           <label>New Password</label><input name="pass" type="password" required>
           <button type="submit">Update Admin Login</button>
-          <p class="muted" style="margin:0;">Takes effect immediately and persists in this browser.</p>
+          <p class="muted" style="margin:0;">Takes effect immediately and saves to JSONBin.</p>
         </form>
         <button class="secondary" id="admin-logout" style="margin-top:12px;">Log out</button>
       </div>
@@ -378,13 +474,14 @@
     <div id="profile" class="view hidden">
       <button class="secondary" id="back-btn">← Back</button>
       <div class="profile section">
-        <img id="profile-photo" class="avatar" style="width:160px;height:160px;border-radius:22px;object-fit:cover;">
+        <img loading="lazy" decoding="async" id="profile-photo" class="avatar" style="width:160px;height:160px;border-radius:22px;object-fit:cover;">
         <div>
           <h2 id="profile-name"></h2>
           <p class="badge" id="profile-role"></p>
           <div id="profile-details" style="margin-top:12px;line-height:1.5;"></div>
           <div style="margin-top:12px;display:flex;gap:10px;">
             <button id="profile-edit">Edit</button>
+            <button id="profile-print-id" class="secondary">Print ID Card</button>
             <button class="danger" id="profile-delete">Delete</button>
           </div>
           <div id="profile-edit-panel" class="section hidden" style="margin-top:12px;">
@@ -422,81 +519,254 @@
 <script>
 // helpers
 const $ = sel => document.querySelector(sel);
-const key = { students:'mbk_students', teachers:'mbk_teachers', classes:'mbk_classes', attendance:'mbk_attendance', announcements:'mbk_announcements', admin:'mbk_admin' };
-const defaultAdmin = { user:'karim', pass:'445566', photo:'' };
-let admin = JSON.parse(localStorage.getItem(key.admin) || 'null') || defaultAdmin;
-const saveAdmin = creds => { admin = {...admin, ...creds}; localStorage.setItem(key.admin, JSON.stringify(admin)); };
-const store = { read:k=>JSON.parse(localStorage.getItem(k)||'[]'), write:(k,v)=>localStorage.setItem(k,JSON.stringify(v)) };
-const toBase64 = file => new Promise(res=>{const r=new FileReader();r.onload=()=>res(r.result);r.readAsDataURL(file);});
+const showToast = (msg, type='success') => {
+  let container = $('.toast-container');
+  if(!container){
+    container = document.createElement('div');
+    container.className = 'toast-container';
+    document.body.appendChild(container);
+  }
+  const el = document.createElement('div');
+  el.className = `toast ${type}`;
+  el.textContent = (type === 'error' ? 'Error: ' : '') + msg;
+  container.appendChild(el);
+  setTimeout(()=>{
+    el.classList.add('fade-out');
+    setTimeout(()=>el.remove(),300);
+  },3000);
+};
+const BIN_ID = '69d601ae856a6821890df5e8';
+const BIN_BASE_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
+const BIN_MASTER_KEY = '$2a$10$boob7HiU/Qq/iPITpxeE0.knWZ6rRbVaVVdBwmJlAgmAbrlr2gX1.';
+const BIN_ACCESS_KEY = '$2a$10$VgVAfIMuJJkppxqYEA90A.vGGGWZRRwayaU6aApoiIBkH8n2BSF/q';
+const BIN_READ_HEADERS = {
+  'X-Master-Key': BIN_MASTER_KEY,
+  'X-Access-Key': BIN_ACCESS_KEY,
+  'X-Bin-Meta': 'false'
+};
+const BIN_WRITE_HEADERS = {
+  'Content-Type': 'application/json',
+  'X-Master-Key': BIN_MASTER_KEY,
+  'X-Access-Key': BIN_ACCESS_KEY
+};
+const BIN_READ_ENDPOINTS = [
+  `${BIN_BASE_URL}/latest`,
+  BIN_BASE_URL
+];
+const defaultAdmin = { user:'', pass:'', photo:'' };
+let admin = { ...defaultAdmin };
+let settings = {};
+let saveQueue = Promise.resolve();
+let saveRequested = false;
+const toBase64 = (file, maxW = 400, maxH = 400) => new Promise((res, rej) => {
+  const r = new FileReader();
+  r.readAsDataURL(file);
+  r.onload = e => {
+    const img = new Image();
+    img.src = e.target.result;
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      let w = img.width, h = img.height;
+      if (w > h) { if (w > maxW) { h *= maxW / w; w = maxW; } }
+      else { if (h > maxH) { w *= maxH / h; h = maxH; } }
+      canvas.width = w; canvas.height = h;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, w, h);
+      res(canvas.toDataURL('image/jpeg', 0.8));
+    };
+    img.onerror = () => res(e.target.result);
+  };
+  r.onerror = rej;
+});
 const today = ()=> new Date().toISOString().slice(0,10);
 const matchClass = (sCls, tCls) => {
   const s = (sCls || '').toLowerCase().trim();
   const t = (tCls || '').toLowerCase().trim();
   return s === t || s.startsWith(t + ' ');
 };
+const parseApiError = async (resp, fallback='Request failed') => {
+  let detail = '';
+  try{
+    const body = await resp.json();
+    detail = body?.message || body?.error || '';
+  }catch{
+    try{ detail = await resp.text(); }catch{}
+  }
+  return detail ? `${fallback}: ${detail}` : `${fallback} (${resp.status})`;
+};
+const buildPayload = ()=>({
+  admin: { ...defaultAdmin, ...(admin || {}) },
+  teachers: Array.isArray(teachers) ? teachers : [],
+  students: Array.isArray(students) ? students : [],
+  classes: Array.isArray(classes) ? classes : [],
+  attendance: Array.isArray(attendance) ? attendance : [],
+  announcements: Array.isArray(announcements) ? announcements : [],
+  settings: settings && typeof settings === 'object' ? settings : {}
+});
+const applyPayload = payload => {
+  const data = payload && typeof payload === 'object' ? payload : {};
+  admin = { ...defaultAdmin, ...(data.admin || {}) };
+  teachers = Array.isArray(data.teachers) ? data.teachers : [];
+  students = Array.isArray(data.students) ? data.students : [];
+  classes = Array.isArray(data.classes) ? data.classes : [];
+  attendance = Array.isArray(data.attendance) ? data.attendance : [];
+  announcements = Array.isArray(data.announcements) ? data.announcements : [];
+  settings = data.settings && typeof data.settings === 'object' ? data.settings : {};
+};
+const loadBinData = async ()=>{
+  let lastError = null;
+  for(const url of BIN_READ_ENDPOINTS){
+    try{
+      const resp = await fetch(url, { method:'GET', headers: BIN_READ_HEADERS });
+      if(!resp.ok){
+        lastError = new Error(await parseApiError(resp, 'Failed to fetch JSONBin data'));
+        continue;
+      }
+      const body = await resp.json();
+      const data = (body && typeof body === 'object' && 'record' in body) ? body.record : body;
+      applyPayload(data && typeof data === 'object' ? data : {});
+      return buildPayload();
+    }catch(err){
+      lastError = err;
+    }
+  }
+  throw (lastError || new Error('Unable to read JSONBin data.'));
+};
+const putBinData = async (localPayload) => {
+  // 1. Fetch latest remote state to detect external changes
+  let remotePayload = null;
+  try {
+    const resp = await fetch(BIN_READ_ENDPOINTS[0], { method: 'GET', headers: BIN_READ_HEADERS });
+    if (resp.ok) {
+      const body = await resp.json();
+      remotePayload = (body && typeof body === 'object' && 'record' in body) ? body.record : body;
+    }
+  } catch (e) { console.warn("Sync fetch failed, proceeding with local version.", e); }
+
+  let finalPayload = localPayload;
+
+  if (remotePayload) {
+    // 2. Resolve conflicts using Record-Level Last-Write-Wins
+    const merge = (localArr, remoteArr, key = 'id') => {
+      const map = new Map();
+      (remoteArr || []).forEach(item => map.set(item[key], item));
+      (localArr || []).forEach(item => {
+        const existing = map.get(item[key]);
+        // Merge if local is newer or remote item doesn't exist
+        if (!existing || (item.updatedAt || 0) >= (existing.updatedAt || 0)) {
+          map.set(item[key], item);
+        }
+      });
+      return Array.from(map.values());
+    };
+
+    finalPayload = {
+      ...remotePayload,
+      ...localPayload,
+      admin: (localPayload.admin.updatedAt || 0) > (remotePayload.admin.updatedAt || 0) ? localPayload.admin : remotePayload.admin,
+      students: merge(localPayload.students, remotePayload.students),
+      teachers: merge(localPayload.teachers, remotePayload.teachers),
+      classes: merge(localPayload.classes, remotePayload.classes),
+      attendance: merge(localPayload.attendance, remotePayload.attendance, 'date'),
+      announcements: merge(localPayload.announcements, remotePayload.announcements, 'id'),
+      settings: { ...remotePayload.settings, ...localPayload.settings }
+    };
+  }
+
+  // 3. Push the resolved state
+  const saveResp = await fetch(BIN_BASE_URL, {
+    method: 'PUT',
+    headers: BIN_WRITE_HEADERS,
+    body: JSON.stringify(finalPayload)
+  });
+  if (!saveResp.ok) throw new Error(await parseApiError(saveResp, 'Conflict resolution save failed'));
+  
+  localStorage.setItem('mbk_cache', JSON.stringify(finalPayload));
+  applyPayload(finalPayload); // Reflect merged state in current UI
+};
+let pendingSave = false;
+const saveBinData = async ()=>{
+  // Optimistic Local Save
+  const payload = buildPayload();
+  localStorage.setItem('mbk_cache', JSON.stringify(payload));
+
+  if(saveRequested) { pendingSave = true; return saveQueue; }
+  saveRequested = true;
+  saveQueue = saveQueue
+    .catch(()=>{})
+    .then(()=>new Promise(res=>setTimeout(res,400)))
+    .then(()=>putBinData(payload))
+    .catch(err => showToast(err.message || 'Cloud sync failed', 'error'))
+    .finally(()=>{ 
+      saveRequested = false; 
+      if(pendingSave){ pendingSave=false; saveBinData(); }
+    });
+  return saveQueue;
+};
+const loadData = async ()=>loadBinData();
+const saveData = async ()=>saveBinData();
+const syncFromStorage = async ()=>loadBinData();
+const saveAdmin = async creds => {
+  admin = { ...admin, ...creds, updatedAt: Date.now() };
+  await saveBinData();
+};
 
 // state
-let students = store.read(key.students);
-let teachers = store.read(key.teachers);
-let classes = store.read(key.classes);
-let attendance = store.read(key.attendance); // [{date, records:[{id,status}]}]
-let announcements = store.read(key.announcements);
+let students = [];
+let teachers = [];
+let classes = [];
+let attendance = []; // [{date, records:[{id,status}]}]
+let announcements = [];
 let currentProfile=null;
 let currentUser=null;
 let charts={};
+let activeView='nav-home';
+const pageSize = { students: 30, teachers: 30, classes: 24 };
+const pageState = { students: 1, teachers: 1, classes: 1 };
+const searchState = { students: '', teachers: '' };
+const debounce = (fn, delay=240)=>{
+  let t;
+  return (...args)=>{ clearTimeout(t); t=setTimeout(()=>fn(...args),delay); };
+};
 function setTeacherFormEnabled(on=true){
   const form=$('#teacher-form'); if(!form) return;
   form.querySelectorAll('input,textarea,select,button').forEach(el=>el.disabled=!on);
 }
 setTeacherFormEnabled(true);
 
-const syncFromStorage=()=>{
-  students = store.read(key.students);
-  teachers = store.read(key.teachers);
-  classes = store.read(key.classes);
-  attendance = store.read(key.attendance);
-  announcements = store.read(key.announcements);
-  admin = JSON.parse(localStorage.getItem(key.admin) || 'null') || defaultAdmin;
-};
-
-// Seed sample data once (no credentials shown)
-if(!localStorage.getItem('mbk_seeded_v2')){
-  students=[{
-    name:'Demo Student',id:'STU-001',age:10,className:'Grade 1',
-    guardian:'Guardian Demo',phone:'000-000-0000',email:'student@example.com',
-    address:'Demo Address',feeStatus:'Pending'
-  }];
-  teachers=[{
-    name:'Demo Teacher',id:'TCH-001',subject:'English',
-    loginUser:'demo',loginPassword:'demo123',classes:['Grade 1'],
-    phone:'000-000-1111',email:'teacher@example.com',address:'Demo Address'
-  }];
-  classes=[{name:'Grade 1',room:'Room A1',teacher:'Demo Teacher'}];
-  announcements=[{title:'Welcome',body:'This is sample data. You can edit or delete.',date:today()}];
-  store.write(key.students,students); store.write(key.teachers,teachers);
-  store.write(key.classes,classes); store.write(key.announcements,announcements);
-  localStorage.setItem('mbk_seeded_v2','yes');
-}
-
 // auth
-$('#login-form').addEventListener('submit',e=>{
+$('#login-form').addEventListener('submit',async e=>{
   e.preventDefault();
   const formData=Object.fromEntries(new FormData(e.target));
   formData.user = (formData.user||'').trim();
   formData.pass = formData.pass||'';
   const role=formData.role;
-  syncFromStorage(); // always refresh latest saved data before auth
-  if(role==='admin'){
-    if(formData.user===admin.user && formData.pass===admin.pass){
-      currentUser={role:'admin'};
-      afterLogin('dashboard');
-    }else return showLoginError();
-  }else{
-    const match=teachers.find(t=>t.loginUser===formData.user && t.loginPassword===formData.pass);
-    if(match){
-      currentUser={role:'teacher',id:match.id,name:match.name};
-      afterLogin('attendance');
-    }else return showLoginError();
+  $('#login-error').style.display='none';
+  try{
+    await syncFromStorage(); // always refresh latest remote state before auth
+    if(role==='admin'){
+      // Bootstrap admin credentials on first setup when bin has no admin credentials yet.
+      if(!admin.user && !admin.pass){
+        await saveAdmin({ user: formData.user, pass: formData.pass });
+        currentUser={role:'admin'};
+        afterLogin('dashboard');
+        return;
+      }
+      if(formData.user===admin.user && formData.pass===admin.pass){
+        currentUser={role:'admin'};
+        afterLogin('dashboard');
+      }else return showLoginError();
+    }else{
+      const match=teachers.find(t=>t.loginUser===formData.user && t.loginPassword===formData.pass);
+      if(match){
+        currentUser={role:'teacher',id:match.id,name:match.name};
+        afterLogin('attendance');
+      }else return showLoginError();
+    }
+  }catch(err){
+    console.error(err);
+    $('#login-error').textContent = err.message || 'Unable to connect to JSONBin.';
+    $('#login-error').style.display='block';
   }
 });
 const showLoginError=()=>{$('#login-error').style.display='block';};
@@ -505,12 +775,18 @@ const afterLogin=(startView)=>{
   $('#app-view').classList.remove('hidden');
   $('#att-date').value=today();
   updateNavForRole();
-  syncFromStorage();
   renderAll();
   showView('nav-home');
   fillAdminForm();
+  showToast('Signed in successfully');
 };
 $('#logout').onclick=()=>location.reload();
+$('#sync-now').onclick=async ()=>{
+  const b=$('#sync-now'); b.disabled=true; b.textContent='...';
+  try{ await syncFromStorage(); renderAll(); showToast('Data synced'); }
+  catch(e){ showToast(e.message,'error'); }
+  finally{ b.disabled=false; b.textContent='↻ Sync'; }
+};
 
 // navigation
 document.querySelectorAll('[data-target]').forEach(btn=>btn.onclick=()=>{
@@ -521,9 +797,11 @@ document.querySelectorAll('[data-target]').forEach(btn=>btn.onclick=()=>{
 const teacherAllowed=['attendance','nav-home','announcements'];
 const showView=view=>{
   if(currentUser?.role==='teacher' && !teacherAllowed.includes(view)){ view='nav-home'; }
+  activeView=view;
   document.querySelectorAll('.view').forEach(v=>v.classList.add('hidden'));
   $('#'+view).classList.remove('hidden');
-  if(view==='dashboard'){ $('#dashboard-cards')?.classList.remove('hidden'); renderDashboard(); }
+  if(view==='dashboard'){ $('#dashboard-cards')?.classList.remove('hidden'); }
+  renderActiveView();
 };
 $('#back-btn').onclick=()=>showView(currentProfile?.role==='student'?'students':'teachers');
 
@@ -555,14 +833,13 @@ const updateNavForRole=()=>{
 
 // dashboard render
 const renderDashboard=()=>{
-  syncFromStorage(); // ensure we always read persisted latest
   $('#total-students').textContent=students.length;
   $('#total-teachers').textContent=teachers.length;
   $('#total-classes').textContent=classes.length;
   const due=students.filter(s=>s.feeStatus!=='Paid').length;
   $('#fees-due').textContent=`${due} pending`;
   // announcements preview
-  $('#announce-preview').innerHTML=announcements.slice(-3).reverse().map(a=>`
+  $('#announce-preview').innerHTML=announcements.filter(a=>!a.deletedAt).slice(-3).reverse().map(a=>`
     <div class="list-item" style="cursor:default;">
       <div>
         <div style="font-weight:700;">${a.title}</div>
@@ -578,7 +855,7 @@ const renderDashboard=()=>{
 // card helper
 const card=(item,role)=>`
   <div class="list-item" data-role="${role}" data-id="${item.id}">
-    <img class="avatar" src="${item.photo||'https://via.placeholder.com/80'}" alt="">
+    <img loading="lazy" decoding="async" class="avatar" src="${item.photo||'school-logo.webp'}" alt="">
     <div>
       <div style="font-weight:700;">${item.name}</div>
       <div class="muted" style="font-size:.9rem;">ID: ${item.id}</div>
@@ -587,34 +864,50 @@ const card=(item,role)=>`
   </div>`;
 
 // list render
-const renderLists=()=>{
-  const sTerm=$('#student-search').value?.toLowerCase()||'';
-  const studentRows=students
-    .filter(s=>s.name.toLowerCase().includes(sTerm)||s.id.toLowerCase().includes(sTerm))
-    .map(s=>`<tr data-id="${s.id}" class="student-row" style="cursor:pointer;">
-      <td>${s.name}</td><td>${s.id}</td><td>${s.className||'&mdash;'}</td><td>${s.feeStatus||'&mdash;'}</td>
-    </tr>`).join('');
-  $('#student-tbody').innerHTML=studentRows || '<tr><td colspan="4" class="muted">No students yet.</td></tr>';
+const renderPager=(id,type,totalItems)=>{
+  const totalPages=Math.max(1,Math.ceil(totalItems/pageSize[type]));
+  pageState[type]=Math.min(Math.max(1,pageState[type]),totalPages);
+  const host=$("#"+id);
+  if(host){
+    host.innerHTML=`<button class="secondary" ${pageState[type]===1?'disabled':''} onclick="changePage('${type}',-1)">Prev</button>
+      <span>Page ${pageState[type]} of ${totalPages}</span>
+      <button class="secondary" ${pageState[type]===totalPages?'disabled':''} onclick="changePage('${type}',1)">Next</button>`;
+  }
+  const start=(pageState[type]-1)*pageSize[type];
+  return {start,end:start+pageSize[type]};
+};
 
-  const tTerm=$('#teacher-search').value?.toLowerCase()||'';
-  const teacherRows=teachers
-    .filter(t=>t.name.toLowerCase().includes(tTerm)||t.id.toLowerCase().includes(tTerm))
-    .map(t=>`<tr data-id="${t.id}" class="teacher-row" style="cursor:pointer;">
-      <td>${t.name}</td><td>${t.id}</td><td>${t.subject||'—'}</td><td>${(t.classes||[]).join(', ')||'—'}</td>
-    </tr>`).join('');
-  $('#teacher-tbody').innerHTML=teacherRows || '<tr><td colspan="4" class="muted">No teachers yet.</td></tr>';
-
+const renderStudentsTable=()=>{
+  const term=(searchState.students||'').toLowerCase();
+  const filtered=students.filter(s=>!s.deletedAt && (s.name.toLowerCase().includes(term)||s.id.toLowerCase().includes(term)));
+  const {start,end}=renderPager('student-pager','students',filtered.length);
+  const rows=filtered.slice(start,end).map(s=>`<tr data-id="${s.id}" class="student-row" style="cursor:pointer;">
+    <td>${s.name}</td><td>${s.id}</td><td>${s.className||'&mdash;'}</td><td>${s.feeStatus||'&mdash;'}</td>
+  </tr>`).join('');
+  $('#student-tbody').innerHTML=rows || '<tr><td colspan="4" class="muted">No students yet.</td></tr>';
   document.querySelectorAll('.student-row').forEach(el=>el.onclick=()=>openProfile('student',el.dataset.id));
+};
+
+const renderTeachersTable=()=>{
+  const term=(searchState.teachers||'').toLowerCase();
+  const filtered=teachers.filter(t=>!t.deletedAt && (t.name.toLowerCase().includes(term)||t.id.toLowerCase().includes(term)));
+  const {start,end}=renderPager('teacher-pager','teachers',filtered.length);
+  const rows=filtered.slice(start,end).map(t=>`<tr data-id="${t.id}" class="teacher-row" style="cursor:pointer;">
+    <td>${t.name}</td><td>${t.id}</td><td>${t.subject||'&mdash;'}</td><td>${(t.classes||[]).join(', ')||'&mdash;'}</td>
+  </tr>`).join('');
+  $('#teacher-tbody').innerHTML=rows || '<tr><td colspan="4" class="muted">No teachers yet.</td></tr>';
   document.querySelectorAll('.teacher-row').forEach(el=>el.onclick=()=>openProfile('teacher',el.dataset.id));
 };
 
 // classes render
 const renderClasses=()=>{
-  $('#class-list').innerHTML = classes.map(c=>`
+  const {start,end}=renderPager('class-pager','classes',classes.length);
+  const activeClasses = classes.filter(c => !c.deletedAt);
+  $('#class-list').innerHTML = activeClasses.slice(start,end).map(c=>`
     <div class="list-item" style="cursor:default;">
       <div>
         <div style="font-weight:700;">${c.name}</div>
-        <div class="muted">${c.room||'Room N/A'} · ${c.teacher||'Teacher TBD'}</div>
+        <div class="muted">${c.room||'Room N/A'} &middot; ${c.teacher||'Teacher TBD'}</div>
       </div>
     </div>`).join('') || '<p class="muted">Add the first class.</p>';
 };
@@ -632,8 +925,9 @@ const renderAttendance=()=>{
     const teacher = teachers.find(t=>t.id===currentUser.id);
     const allowedClasses = teacher?.classes || [];
     const classFilter = $('#att-class-filter')?.value || '';
-    allowedStudents = students.filter(s=>{
-      if(!allowedClasses.length) return false;
+    allowedStudents = students.filter(s => {
+      if (s.deletedAt) return false;
+      if (!allowedClasses.length) return false;
       const inAssigned = allowedClasses.some(c => matchClass(s.className, c));
       const matchesFilter = !classFilter || matchClass(s.className, classFilter);
       return inAssigned && matchesFilter;
@@ -679,51 +973,67 @@ const showProfileEditPanel=(teacher)=>{
   form.querySelectorAll('input[name=\"classes\"]').forEach(cb=>{
     cb.checked = (teacher.classes||[]).includes(cb.value);
   });
-  form.onsubmit = e=>{
+  form.onsubmit = async e=>{
     e.preventDefault();
     const fd=new FormData(form);
     const payload=Object.fromEntries(fd.entries());
     payload.classes=[...form.querySelectorAll('input[name=\"classes\"]:checked')].map(c=>c.value);
     const idx=teachers.findIndex(t=>t.id===teacher.id);
     if(idx>=0){
-      teachers[idx]={...teachers[idx],...payload};
-      store.write(key.teachers,teachers);
-      panel.classList.add('hidden');
-      renderAll();
-      openProfile('teacher',teachers[idx].id);
-      alert('Teacher updated.');
+      try{
+        teachers[idx]={...teachers[idx],...payload, updatedAt: Date.now()};
+        saveBinData();
+        panel.classList.add('hidden');
+        renderAll();
+        openProfile('teacher',teachers[idx].id);
+        showToast('Teacher updated');
+      }catch(err){
+        console.error(err);
+        showToast('Failed to save teacher', 'error');
+      }
     }
   };
 };
 
-window.deleteAnnounce = idx => {
+window.deleteAnnounce = async id => {
   if(!confirm('Delete this announcement?')) return;
-  announcements.splice(idx, 1);
-  store.write(key.announcements, announcements);
-  renderAnnouncements(); renderDashboard();
+  const a = announcements.find(x => x.id === id);
+  if(!a) return;
+  try{
+    a.deletedAt = Date.now();
+    a.updatedAt = Date.now();
+    saveBinData();
+    renderAnnouncements(); renderDashboard();
+    showToast('Announcement removed');
+  }catch(err){
+    console.error(err);
+    showToast('Delete failed', 'error');
+  }
 };
-window.editAnnounce = idx => {
-  const a = announcements[idx];
+window.editAnnounce = id => {
+  const a = announcements.find(x => x.id === id);
+  if(!a) return;
   const f = $('#announce-form');
   if(!f) return;
   f.title.value = a.title;
   f.body.value = a.body;
-  f.editIdx.value = idx;
+  f.editId.value = a.id;
   f.querySelector('button[type="submit"]').textContent = 'Update Announcement';
 };
 
 // announcements render
 const renderAnnouncements=()=>{
   const isAdmin = currentUser?.role === 'admin';
-  $('#announce-list').innerHTML = announcements.slice().reverse().map((a, i)=>`
+  const active = announcements.filter(a => !a.deletedAt);
+  $('#announce-list').innerHTML = active.slice().reverse().map((a, i)=>`
     <div class="section" style="padding:12px;">
       <div style="display:flex;justify-content:space-between;align-items:center;">
         <strong>${a.title}</strong>
         <div style="display:flex;gap:8px;align-items:center;">
           <span class="muted" style="font-size:.85rem;">${a.date}</span>
           ${isAdmin ? `
-            <button class="secondary" style="padding:4px 8px;font-size:.7rem;" onclick="editAnnounce(${announcements.length-1-i})">Edit</button>
-            <button class="danger" style="padding:4px 8px;font-size:.7rem;" onclick="deleteAnnounce(${announcements.length-1-i})">Delete</button>
+            <button class="secondary" style="padding:4px 8px;font-size:.7rem;" onclick="editAnnounce(${a.id})">Edit</button>
+            <button class="danger" style="padding:4px 8px;font-size:.7rem;" onclick="deleteAnnounce(${a.id})">Delete</button>
           ` : ''}
         </div>
       </div>
@@ -731,8 +1041,26 @@ const renderAnnouncements=()=>{
     </div>`).join('') || '<p class="muted">No announcements yet.</p>';
 };
 
+window.changePage=(type,delta)=>{
+  pageState[type]=Math.max(1,(pageState[type]||1)+delta);
+  renderActiveView();
+};
+
+const renderActiveView=()=>{
+  switch(activeView){
+    case 'dashboard': renderDashboard(); break;
+    case 'students': renderStudentsTable(); break;
+    case 'teachers': renderTeachersTable(); break;
+    case 'classes': renderClasses(); break;
+    case 'attendance': renderAttendance(); break;
+    case 'announcements': renderAnnouncements(); break;
+    case 'nav-home': updateTeacherClassFilter(); break;
+    default: break;
+  }
+};
+
 // render all
-const renderAll=()=>{syncFromStorage();renderDashboard();renderLists();renderClasses();renderAttendance();renderAnnouncements();};
+const renderAll=()=>{ renderActiveView(); };
 
 // build teacher class filter for attendance
 const updateTeacherClassFilter=()=>{
@@ -782,7 +1110,7 @@ function openProfile(role,id){
   const data=role==='student'?students:teachers;
   const item=data.find(x=>x.id===id); if(!item) return;
   currentProfile={role,id};
-  $('#profile-photo').src=item.photo||'https://via.placeholder.com/200';
+  $('#profile-photo').src=item.photo||'school-logo.webp';
   $('#profile-name').textContent=item.name;
   $('#profile-role').textContent=role==='student'?'Student':'Teacher';
   $('#profile-details').innerHTML=Object.entries(item)
@@ -795,6 +1123,11 @@ function openProfile(role,id){
       loadIntoForm(role,item);
     }
   };
+  const pBtn=$('#profile-print-id');
+  if(pBtn){
+    pBtn.style.display=role==='student'?'inline-block':'none';
+    pBtn.onclick=()=>printStudentCard(id);
+  }
   $('#profile-delete').onclick=()=>deleteEntity(role,id);
   showView('profile');
 }
@@ -806,10 +1139,16 @@ $('#student-form').addEventListener('submit',async e=>{
   const payload=Object.fromEntries(fd.entries());
   if(file && file.size) payload.photo=await toBase64(file); else delete payload.photo;
   payload.age=Number(payload.age);
-  if(editId){const idx=students.findIndex(s=>s.id===editId);students[idx]={...students[idx],...payload,id:editId};}
-  else students.push(payload);
-  store.write(key.students,students);
-  e.target.reset(); renderAll(); alert('Student saved');
+  payload.updatedAt = Date.now();
+  try{
+    if(editId){const idx=students.findIndex(s=>s.id===editId);students[idx]={...students[idx],...payload,id:editId};}
+    else students.push(payload);
+    saveBinData();
+    e.target.reset(); renderAll(); showToast('Student saved');
+  }catch(err){
+    console.error(err);
+    showToast('Failed to save student', 'error');
+  }
 });
 $('#teacher-form').addEventListener('submit',async e=>{
   e.preventDefault();
@@ -818,32 +1157,52 @@ $('#teacher-form').addEventListener('submit',async e=>{
   payload.classes=[...e.target.querySelectorAll('input[name="classes"]:checked')].map(c=>c.value);
   if(!Array.isArray(payload.classes)) payload.classes=[];
   if(file && file.size) payload.photo=await toBase64(file); else delete payload.photo;
-  if(editId){const idx=teachers.findIndex(t=>t.id===editId);teachers[idx]={...teachers[idx],...payload,id:editId};}
-  else teachers.push(payload);
-  store.write(key.teachers,teachers);
-  e.target.reset(); renderAll(); alert('Teacher saved');
+  payload.updatedAt = Date.now();
+  try{
+    if(editId){const idx=teachers.findIndex(t=>t.id===editId);teachers[idx]={...teachers[idx],...payload,id:editId};}
+    else teachers.push(payload);
+    saveBinData();
+    e.target.reset(); renderAll(); showToast('Teacher saved');
+  }catch(err){
+    console.error(err);
+    showToast('Failed to save teacher', 'error');
+  }
 });
-$('#class-form').addEventListener('submit',e=>{
+$('#class-form').addEventListener('submit',async e=>{
   e.preventDefault();
   const data=Object.fromEntries(new FormData(e.target).entries());
-  classes.push(data); store.write(key.classes,classes);
-  e.target.reset(); renderClasses(); alert('Class saved');
+  data.updatedAt = Date.now();
+  try{
+    classes.push(data);
+    saveBinData();
+    e.target.reset(); renderClasses(); showToast('Class created');
+  }catch(err){
+    console.error(err);
+    showToast('Failed to save class', 'error');
+  }
 });
-$('#announce-form').addEventListener('submit',e=>{
+$('#announce-form').addEventListener('submit',async e=>{
   e.preventDefault();
   const fd = new FormData(e.target);
   const data = Object.fromEntries(fd.entries());
-  const idx = fd.get('editIdx');
-  if(idx !== "" && idx !== null){
-    announcements[idx] = { ...announcements[idx], title: data.title, body: data.body };
-  } else {
-    announcements.push({ title: data.title, body: data.body, date: today() });
+  const id = fd.get('editId');
+  try{
+    const now = Date.now();
+    if(id){
+      const a = announcements.find(x => x.id == id);
+      if(a) { a.title = data.title; a.body = data.body; a.updatedAt = now; }
+    } else {
+      announcements.push({ id: now, title: data.title, body: data.body, date: today(), updatedAt: now });
+    }
+    saveBinData();
+    e.target.reset();
+    if(e.target.editId) e.target.editId.value = "";
+    e.target.querySelector('button[type="submit"]').textContent = 'Publish';
+    renderAnnouncements(); renderDashboard(); showToast('Announcement published');
+  }catch(err){
+    console.error(err);
+    showToast('Failed to publish', 'error');
   }
-  store.write(key.announcements,announcements);
-  e.target.reset();
-  if(e.target.editIdx) e.target.editIdx.value = "";
-  e.target.querySelector('button[type="submit"]').textContent = 'Publish';
-  renderAnnouncements(); renderDashboard();
 });
 
 const loadIntoForm=(role,item)=>{
@@ -860,40 +1219,72 @@ const loadIntoForm=(role,item)=>{
   form.elements.editId.value=item.id;
   showView(role==='student'?'students':'teachers');
 };
-const deleteEntity=(role,id)=>{
+const deleteEntity=async (role,id)=>{
   if(!confirm('Delete permanently?')) return;
-  if(role==='student'){students=students.filter(s=>s.id!==id);store.write(key.students,students);}
-  else{teachers=teachers.filter(t=>t.id!==id);store.write(key.teachers,teachers);}
-  renderAll(); showView(role==='student'?'students':'teachers');
+  const now = Date.now();
+  try{
+    if(role==='student'){
+      const s = students.find(x => x.id === id); if(s) { s.deletedAt = now; s.updatedAt = now; }
+    } else {
+      const t = teachers.find(x => x.id === id); if(t) { t.deletedAt = now; t.updatedAt = now; }
+    }
+    saveBinData();
+    renderAll(); showView(role==='student'?'students':'teachers'); showToast('Record deleted');
+  }catch(err){
+    console.error(err);
+    showToast('Delete failed', 'error');
+  }
 };
 $('#student-reset').onclick=()=>$('#student-form').reset();
 $('#teacher-reset').onclick=()=>$('#teacher-form').reset();
-  $('#student-search').oninput=renderLists;
-  $('#teacher-search').oninput=renderLists;
+const onStudentSearch=debounce(e=>{
+  searchState.students=(e.target.value||'').trim();
+  pageState.students=1;
+  if(activeView==='students') renderStudentsTable();
+},220);
+const onTeacherSearch=debounce(e=>{
+  searchState.teachers=(e.target.value||'').trim();
+  pageState.teachers=1;
+  if(activeView==='teachers') renderTeachersTable();
+},220);
+$('#student-search').addEventListener('input',onStudentSearch);
+$('#teacher-search').addEventListener('input',onTeacherSearch);
 
 // admin credential form
 const fillAdminForm=()=>{
   const f=$('#admin-form'); if(!f) return;
   f.user.value=admin.user; f.pass.value=admin.pass;
-  const p=$('#admin-photo-preview'); if(p) p.src = admin.photo || 'https://via.placeholder.com/120?text=Admin';
+  const p=$('#admin-photo-preview'); if(p) p.src = admin.photo || 'school-logo.webp';
 };
 $('#admin-form')?.addEventListener('submit',e=>{
   e.preventDefault();
   const fd=new FormData(e.target);
   const file=$('#admin-photo')?.files?.[0];
   const data=Object.fromEntries(fd.entries());
-  const finish=photoData=>{
-    if(photoData) data.photo=photoData;
-    saveAdmin(data);
-    fillAdminForm();
-    alert('Admin settings updated and saved in this browser.');
+  const finish=async photoData=>{
+    try{
+      if(photoData) data.photo=photoData;
+      saveAdmin(data);
+      fillAdminForm();
+      showToast('Admin settings updated');
+    }catch(err){
+      console.error(err);
+      showToast('Update failed', 'error');
+    }
   };
   if(file) toBase64(file).then(finish); else finish(null);
 });
 $('#admin-photo')?.addEventListener('change',async e=>{
   const file=e.target.files?.[0]; if(!file) return;
-  const b64=await toBase64(file);
-  admin.photo=b64; saveAdmin(admin); fillAdminForm();
+  try{
+    const b64=await toBase64(file);
+    admin.photo=b64;
+    saveAdmin(admin);
+    fillAdminForm();
+  }catch(err){
+    console.error(err);
+    showToast('Failed to upload photo', 'error');
+  }
 });
 $('#admin-logout')?.addEventListener('click',()=>location.reload());
 
@@ -902,71 +1293,195 @@ const parseCSV=(text)=>{
   const lines=text.trim().split(/\r?\n/);
   return lines.map(l=>l.split(',').map(s=>s.trim()));
 };
-const importStudents = arr=>{
+const importStudents = async arr=>{
+  const now = Date.now();
   arr.forEach(cols=>{
     const [name,id,age,className,guardian,phone,email,address,feeStatus] = cols;
     if(!name||!id) return;
-    students.push({name,id,age:Number(age||0),className,guardian,phone,email,address,feeStatus:feeStatus||'Pending'});
+    students.push({name,id,age:Number(age||0),className,guardian,phone,email,address,feeStatus:feeStatus||'Pending',updatedAt:now});
   });
-  store.write(key.students,students);
+  saveBinData();
   renderAll();
-  alert('Students imported');
+  showToast(`${arr.length} Students imported`);
 };
 $('#student-import-btn')?.addEventListener('click',()=>{
   const txt=$('#student-import-text').value||'';
   if(txt.trim()){
-    importStudents(parseCSV(txt));
+    importStudents(parseCSV(txt)).catch(err=>{
+      console.error(err);
+      showToast('Import failed', 'error');
+    });
     $('#student-import-text').value='';
     return;
   }
   const file=$('#student-import-file')?.files?.[0];
   if(file){
-    file.text().then(t=>importStudents(parseCSV(t)));
+    file.text().then(t=>importStudents(parseCSV(t))).catch(err=>{
+      console.error(err);
+      showToast('Import failed', 'error');
+    });
   }else{
-    alert('Add CSV text or choose a CSV file first.');
+    showToast('Choose a CSV file first', 'error');
   }
 });
 
 // teacher import
-const importTeachers = arr=>{
+const importTeachers = async arr=>{
+  const now = Date.now();
   arr.forEach(cols=>{
     const [name,id,subject,classesStr,loginUser,loginPassword,phone,email,address] = cols;
     if(!name||!id||!loginUser||!loginPassword) return;
     const classes = (classesStr||'').split('|').map(s=>s.trim()).filter(Boolean);
-    teachers.push({name,id,subject,classes,loginUser,loginPassword,phone,email,address});
+    teachers.push({name,id,subject,classes,loginUser,loginPassword,phone,email,address,updatedAt:now});
   });
-  store.write(key.teachers,teachers);
+  saveBinData();
   renderAll();
-  alert('Teachers imported');
+  showToast(`${arr.length} Teachers imported`);
 };
 $('#teacher-import-btn')?.addEventListener('click',()=>{
   const txt=$('#teacher-import-text').value||'';
   if(txt.trim()){
-    importTeachers(parseCSV(txt));
+    importTeachers(parseCSV(txt)).catch(err=>{
+      console.error(err);
+      showToast('Import failed', 'error');
+    });
     $('#teacher-import-text').value='';
     return;
   }
   const file=$('#teacher-import-file')?.files?.[0];
   if(file){
-    file.text().then(t=>importTeachers(parseCSV(t)));
+    file.text().then(t=>importTeachers(parseCSV(t))).catch(err=>{
+      console.error(err);
+      showToast('Import failed', 'error');
+    });
   }else{
-    alert('Add CSV text or choose a CSV file first.');
+    showToast('Choose a CSV file first', 'error');
   }
 });
+
+// Export functions
+const downloadCSV = (filename, csv) => {
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement("a");
+  const url = URL.createObjectURL(blob);
+  link.setAttribute("href", url);
+  link.setAttribute("download", filename);
+  link.style.visibility = 'hidden';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+
+const exportStudentsCSV = () => {
+  if (!students.length) return showToast('No students to export', 'error');
+  const headers = ["Name", "ID", "Age", "Class", "Guardian", "Phone", "Email", "Address", "Fee Status"];
+  const rows = students.map(s => [
+    `"${(s.name || '').replace(/"/g, '""')}"`, `"${(s.id || '').replace(/"/g, '""')}"`, s.age || 0,
+    `"${(s.className || '').replace(/"/g, '""')}"`, `"${(s.guardian || '').replace(/"/g, '""')}"`,
+    `"${(s.phone || '').replace(/"/g, '""')}"`, `"${(s.email || '').replace(/"/g, '""')}"`,
+    `"${(s.address || '').replace(/"/g, '""')}"`, `"${(s.feeStatus || '').replace(/"/g, '""')}"`
+  ]);
+  const csvContent = "\ufeff" + [headers, ...rows].map(e => e.join(",")).join("\n");
+  downloadCSV(`students_${today()}.csv`, csvContent);
+};
+
+const exportTeachersCSV = () => {
+  if (!teachers.length) return showToast('No teachers to export', 'error');
+  const headers = ["Name", "ID", "Subject", "Classes", "Phone", "Email", "Address"];
+  const rows = teachers.map(t => [
+    `"${(t.name || '').replace(/"/g, '""')}"`, `"${(t.id || '').replace(/"/g, '""')}"`, `"${(t.subject || '').replace(/"/g, '""')}"`,
+    `"${(t.classes || []).join(' | ').replace(/"/g, '""')}"`, `"${(t.phone || '').replace(/"/g, '""')}"`,
+    `"${(t.email || '').replace(/"/g, '""')}"`, `"${(t.address || '').replace(/"/g, '""')}"`
+  ]);
+  const csvContent = "\ufeff" + [headers, ...rows].map(e => e.join(",")).join("\n");
+  downloadCSV(`teachers_${today()}.csv`, csvContent);
+};
+
+$('#student-export-csv')?.addEventListener('click', exportStudentsCSV);
+$('#teacher-export-csv')?.addEventListener('click', exportTeachersCSV);
+
+const printStudentCard = id => {
+  const s = students.find(x => x.id === id);
+  if(!s) return;
+  const area = $('#id-card-print-area');
+  area.innerHTML = `
+    <div class="id-card">
+      <div class="id-card-header">
+        <img src="school-logo.webp" alt="">
+        <div style="line-height:1.1;">
+          <div style="font-weight:700; font-size:0.75rem; color:var(--text);">MBK INTERNATIONAL SCHOOL</div>
+          <div style="font-size:0.55rem; color:var(--muted); font-weight:600;">IDENTITY CARD</div>
+        </div>
+      </div>
+      <div class="id-card-body">
+        <img src="${s.photo || 'school-logo.webp'}" class="id-card-photo" alt="">
+        <div class="id-card-info">
+          <div><div class="lbl">Name</div><div class="val">${s.name}</div></div>
+          <div><div class="lbl">Student ID</div><div class="val">${s.id}</div></div>
+          <div><div class="lbl">Grade / Class</div><div class="val">${s.className || '—'}</div></div>
+          <div><div class="lbl">Guardian</div><div class="val">${s.guardian || '—'}</div></div>
+        </div>
+      </div>
+      <div class="id-card-footer">ACADEMIC YEAR 2024-2025</div>
+    </div>
+  `;
+  window.print();
+};
 
 // attendance saving
 $('#att-date').onchange=renderAttendance;
 $('#att-back-btn').onclick=()=>showView('nav-home');
 $('#ann-back-btn').onclick=()=>showView('nav-home');
-$('#save-attendance').onclick=()=>{
+$('#save-attendance').onclick=async ()=>{
   const date=$('#att-date').value||today();
   const records=[...document.querySelectorAll('#attendance-list input[type=checkbox]')].map(cb=>({id:cb.dataset.id,status:cb.checked?'Present':'Absent'}));
-  const existing=attendance.find(a=>a.date===date);
-  if(existing) existing.records=records; else attendance.push({date,records});
-  store.write(key.attendance,attendance);
-  alert('Attendance saved and locked');
-  renderDashboard(); renderAttendance();
+  try{
+    const now = Date.now();
+    const existing=attendance.find(a=>a.date===date);
+    if(existing) { existing.records=records; existing.updatedAt=now; } 
+    else attendance.push({date,records,updatedAt:now});
+    saveBinData();
+    showToast('Attendance saved and locked');
+    renderDashboard(); renderAttendance();
+  }catch(err){
+    console.error(err);
+    showToast('Failed to save attendance', 'error');
+  }
 };
+
+const initializeFromBin = async ()=>{
+  // 1. Instant Load from Local Cache
+  const cached = localStorage.getItem('mbk_cache');
+  if (cached) {
+    try {
+      applyPayload(JSON.parse(cached));
+      renderAll();
+      fillAdminForm();
+      // Hide splash early if we have data to show
+      $('#splash-screen')?.classList.add('fade-out');
+    } catch(e) { console.warn("Cache corrupt", e); }
+  }
+
+  const submitBtn = $('#login-form button[type="submit"]');
+  
+  try{
+    // 2. Background Cloud Sync
+    const remoteData = await syncFromStorage();
+    localStorage.setItem('mbk_cache', JSON.stringify(remoteData));
+    renderAll();
+    fillAdminForm();
+  }catch(err){
+    console.error(err);
+    if(!cached) {
+      $('#login-error').textContent = 'Cloud offline. Check connection.';
+      $('#login-error').style.display = 'block';
+    }
+  }finally{
+    const splash = $('#splash-screen');
+    if(splash) splash.classList.add('fade-out');
+  }
+};
+initializeFromBin();
 </script>
 </body>
 </html>
